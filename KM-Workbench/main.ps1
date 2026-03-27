@@ -569,17 +569,50 @@ function Initialize-MainWindow {
                                 <StackPanel x:Name="RepairsContainer">
                                     <!-- Safe Repairs Section -->
                                     <GroupBox x:Name="SafeRepairsGroup" Header="Safe Repairs" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="SafeRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
+                                        <ItemsControl x:Name="SafeRepairsPanel" Margin="10">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" ToolTip="{Binding TooltipText}" Style="{StaticResource DarkCheckBoxStyle}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </GroupBox>
                                     
                                     <!-- Advanced Repairs Section -->
                                     <GroupBox x:Name="AdvancedRepairsGroup" Header="Advanced Repairs (Use with caution)" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="AdvancedRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
+                                        <ItemsControl x:Name="AdvancedRepairsPanel" Margin="10">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" ToolTip="{Binding TooltipText}" Style="{StaticResource DarkCheckBoxStyle}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </GroupBox>
                                     
                                     <!-- Dangerous Repairs Section -->
                                     <GroupBox Header="⚠️ Dangerous Repairs (Confirmation Required)" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="DangerousRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
+                                        <ItemsControl x:Name="DangerousRepairsPanel" Margin="10">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" ToolTip="{Binding TooltipText}" Style="{StaticResource DarkCheckBoxStyle}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </GroupBox>
                                 </StackPanel>
                             </ScrollViewer>
@@ -1237,45 +1270,42 @@ function Initialize-RepairsTab {
         return
     }
 
-    $safePanel.Children.Clear()
-    $advancedPanel.Children.Clear()
-    $dangerousPanel.Children.Clear()
+    $safeActions = New-Object System.Collections.ObjectModel.ObservableCollection[Object]
+    $advancedActions = New-Object System.Collections.ObjectModel.ObservableCollection[Object]
+    $dangerousActions = New-Object System.Collections.ObjectModel.ObservableCollection[Object]
+    $repairItems = @()
 
-    $repairCheckboxes = @()
     foreach ($action in $Config) {
         if ($action.enabled -eq $false) { continue }
 
-        $checkbox = New-Object System.Windows.Controls.CheckBox
-        $checkbox.Content = $action.name
-        $checkbox.Tag = $action
-        $checkbox.Margin = "5"
-        $checkbox.Foreground = [System.Windows.Media.Brushes]::White
-        $checkbox.ToolTip = [string]::Join(
-            [Environment]::NewLine,
-            @(
-                [string]$action.description
-                "Category: $($action.category)"
-                "Admin required: $($action.requiresAdmin)"
+        $item = New-Object PSObject -Property @{
+            Name = [string]$action.name
+            TooltipText = [string]::Join(
+                [Environment]::NewLine,
+                @(
+                    [string]$action.description
+                    "Category: $($action.category)"
+                    "Admin required: $($action.requiresAdmin)"
+                )
             )
-        )
-
-        $targetPanel = switch ([string]$action.dangerLevel) {
-            "safe" { $safePanel; break }
-            "advanced" { $advancedPanel; break }
-            "dangerous" { $dangerousPanel; break }
-            default { $safePanel }
+            DangerLevel = [string]$action.dangerLevel
+            Action = $action
+            IsSelected = $false
         }
 
-        try {
-            [void]$targetPanel.Children.Add($checkbox)
-        }
-        catch {
-            Write-KMLog -Message "Skipped repair UI element for '$($action.name)': $_" -Level "Warning"
-            continue
+        switch ([string]$action.dangerLevel) {
+            "safe" { [void]$safeActions.Add($item) }
+            "advanced" { [void]$advancedActions.Add($item) }
+            "dangerous" { [void]$dangerousActions.Add($item) }
+            default { [void]$safeActions.Add($item) }
         }
 
-        $repairCheckboxes += $checkbox
+        $repairItems += $item
     }
+
+    $safePanel.ItemsSource = $safeActions
+    $advancedPanel.ItemsSource = $advancedActions
+    $dangerousPanel.ItemsSource = $dangerousActions
 
     $levelFilter = $Window.FindName("RepairLevelFilter")
     $levelFilter.ItemsSource = @("All Levels", "Safe Only", "Include Advanced", "Dangerous Only")
@@ -1306,7 +1336,7 @@ function Initialize-RepairsTab {
     })
 
     $Window.FindName("RepairRunSelected").Add_Click({
-        $selectedActions = @($repairCheckboxes | Where-Object { $_.IsChecked -eq $true } | ForEach-Object { $_.Tag })
+        $selectedActions = @($repairItems | Where-Object { $_.IsSelected -eq $true } | ForEach-Object { $_.Action })
         if ($selectedActions.Count -eq 0) {
             [System.Windows.MessageBox]::Show("No repair actions selected.", "Information", "OK", "Information") | Out-Null
             return
