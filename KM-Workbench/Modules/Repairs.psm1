@@ -62,7 +62,7 @@ function Invoke-KMRepair {
     #>
     param(
         [Parameter(Mandatory = $true)]
-        [hashtable]$RepairAction,
+        [object]$RepairAction,
         
         [switch]$ConfirmDangerous
     )
@@ -578,7 +578,7 @@ function Get-KMDefaultRepairActions {
             category = "System"
             description = "Completely resets Windows Update components"
             commandType = "powershell"
-            scriptBlock = "Invoke-KMWindowsUpdate"
+            scriptBlock = "Reset-KMWindowsUpdate | Out-String"
             dangerLevel = "dangerous"
             requiresAdmin = $true
             requiresConfirmation = $true

@@ -152,12 +152,6 @@ catch {
     Write-Warning "Failed to load presets configuration: $_"
 }
 
-# Debug: Show what we loaded
-Write-Host "DEBUG: Applications loaded: $($script:Applications.Count)" -ForegroundColor Yellow
-Write-Host "DEBUG: RepairActions loaded: $($script:RepairActions.Count)" -ForegroundColor Yellow
-Write-Host "DEBUG: MaintenanceActions loaded: $($script:MaintenanceActions.Count)" -ForegroundColor Yellow
-Write-Host "DEBUG: First app name: $($script:Applications[0].name)" -ForegroundColor Yellow
-
 # Import all modules
 $modules = @("Helpers.psm1", "Logging.psm1", "Branding.psm1", "Apps.psm1", "Repairs.psm1", "Tweaks.psm1", "Maintenance.psm1", "UI.psm1")
 foreach ($module in $modules) {
@@ -213,22 +207,21 @@ function Initialize-MainWindow {
         Height="750" Width="1100" 
         MinHeight="600" MinWidth="900"
         WindowStartupLocation="CenterScreen"
-        Background="#FF1E1E1E">
+        Background="#FF0F141A">
     
     <Window.Resources>
-        <!-- Colors based on Key Methods branding - LIGHT THEME -->
-        <SolidColorBrush x:Key="PrimaryBlue" Color="#0072C6"/>
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#0A83D8"/>
         <SolidColorBrush x:Key="PrimaryOrange" Color="#F26522"/>
-        <SolidColorBrush x:Key="LightBackground" Color="#FFF5F5F5"/>
-        <SolidColorBrush x:Key="LighterBackground" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="DarkBackground" Color="#FFE0E0E0"/>
-        <SolidColorBrush x:Key="DarkerBackground" Color="#FFD0D0D0"/>
-        <SolidColorBrush x:Key="BorderColor" Color="#FFCCCCCC"/>
-        <SolidColorBrush x:Key="TextPrimary" Color="#FF333333"/>
-        <SolidColorBrush x:Key="TextSecondary" Color="#FF666666"/>
-        <SolidColorBrush x:Key="SuccessGreen" Color="#FF28A745"/>
-        <SolidColorBrush x:Key="WarningYellow" Color="#FFFFC107"/>
-        <SolidColorBrush x:Key="DangerRed" Color="#FFDC3545"/>
+        <SolidColorBrush x:Key="LightBackground" Color="#FF11161D"/>
+        <SolidColorBrush x:Key="LighterBackground" Color="#FF181D23"/>
+        <SolidColorBrush x:Key="DarkBackground" Color="#FF243548"/>
+        <SolidColorBrush x:Key="DarkerBackground" Color="#FF0D1218"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#FF2D3640"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#FFF4F6F8"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#FF9DAAB7"/>
+        <SolidColorBrush x:Key="SuccessGreen" Color="#FF46C37B"/>
+        <SolidColorBrush x:Key="WarningYellow" Color="#FFF4B942"/>
+        <SolidColorBrush x:Key="DangerRed" Color="#FFE25656"/>
         
         <!-- Style for Navigation Buttons -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
@@ -236,7 +229,8 @@ function Initialize-MainWindow {
             <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="15,10"/>
-            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Bahnschrift SemiCondensed"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -244,19 +238,19 @@ function Initialize-MainWindow {
                         <Border x:Name="NavBorder"
                                 Background="{TemplateBinding Background}" 
                                 BorderBrush="{StaticResource PrimaryBlue}"
-                                BorderThickness="4,0,0,0">
+                                BorderThickness="1">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="Center"
                                             Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource DarkBackground}"/>
+                                <Setter TargetName="NavBorder" Property="Background" Value="#FF1D2430"/>
                             </Trigger>
                             <Trigger Property="Tag" Value="Selected">
                                 <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource DarkBackground}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter TargetName="NavBorder" Property="Opacity" Value="1"/>
+                                <Setter TargetName="NavBorder" Property="BorderBrush" Value="{StaticResource PrimaryOrange}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -269,14 +263,15 @@ function Initialize-MainWindow {
             <Setter Property="Background" Value="{StaticResource PrimaryBlue}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Bahnschrift SemiCondensed"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4"
+                                CornerRadius="10"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
@@ -286,10 +281,9 @@ function Initialize-MainWindow {
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#005A9E"/>
+                    <Setter Property="Opacity" Value="0.92"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#FF555555"/>
                     <Setter Property="Opacity" Value="0.6"/>
                 </Trigger>
             </Style.Triggers>
@@ -300,7 +294,7 @@ function Initialize-MainWindow {
             <Setter Property="Background" Value="{StaticResource PrimaryOrange}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#D35400"/>
+                    <Setter Property="Opacity" Value="0.92"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -310,7 +304,7 @@ function Initialize-MainWindow {
             <Setter Property="Background" Value="{StaticResource DangerRed}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#C82333"/>
+                    <Setter Property="Opacity" Value="0.92"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -323,12 +317,12 @@ function Initialize-MainWindow {
         
         <!-- Style for TextBoxes -->
         <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Background" Value="{StaticResource LighterBackground}"/>
+            <Setter Property="Background" Value="{StaticResource DarkerBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
             <Setter Property="BorderBrush" Value="{StaticResource PrimaryBlue}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="13"/>
         </Style>
         
         <!-- Style for ListViews -->
@@ -341,7 +335,7 @@ function Initialize-MainWindow {
         <!-- Style for GroupBoxes -->
         <Style x:Key="DarkGroupBoxStyle" TargetType="GroupBox">
             <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Background" Value="{StaticResource LighterBackground}"/>
@@ -370,8 +364,8 @@ function Initialize-MainWindow {
                     
                     <!-- Title -->
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Key Methods Workbench" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimary}"/>
-                        <TextBlock Text="Install. Repair. Maintain." FontSize="11" Foreground="{StaticResource TextSecondary}" FontStyle="Italic"/>
+                        <TextBlock Text="Key Methods Workbench" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" FontFamily="Bahnschrift SemiCondensed"/>
+                        <TextBlock Text="Install. Repair. Maintain." FontSize="12" Foreground="{StaticResource TextSecondary}"/>
                     </StackPanel>
                     
                     <!-- Admin Badge -->
@@ -391,13 +385,13 @@ function Initialize-MainWindow {
                 <!-- Navigation Sidebar -->
                 <Border Grid.Column="0" Background="{StaticResource LighterBackground}" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,1,0">
                     <StackPanel x:Name="NavigationPanel" Margin="0,10">
-                        <Button x:Name="NavHome" Content="🏠 Home" Style="{StaticResource NavButtonStyle}" Tag="Selected"/>
-                        <Button x:Name="NavApps" Content="📦 Applications" Style="{StaticResource NavButtonStyle}"/>
-                        <Button x:Name="NavRepairs" Content="🔧 Repairs" Style="{StaticResource NavButtonStyle}"/>
-                        <Button x:Name="NavTweaks" Content="⚡ Tweaks" Style="{StaticResource NavButtonStyle}"/>
-                        <Button x:Name="NavMaintenance" Content="🛠️ Maintenance" Style="{StaticResource NavButtonStyle}"/>
-                        <Button x:Name="NavLogs" Content="📋 Logs" Style="{StaticResource NavButtonStyle}"/>
-                        <Button x:Name="NavAbout" Content="ℹ️ About" Style="{StaticResource NavButtonStyle}"/>
+                        <Button x:Name="NavHome" Content="Home" Style="{StaticResource NavButtonStyle}" Tag="Selected"/>
+                        <Button x:Name="NavApps" Content="Applications" Style="{StaticResource NavButtonStyle}"/>
+                        <Button x:Name="NavRepairs" Content="Repairs" Style="{StaticResource NavButtonStyle}"/>
+                        <Button x:Name="NavTweaks" Content="Tweaks" Style="{StaticResource NavButtonStyle}"/>
+                        <Button x:Name="NavMaintenance" Content="Maintenance" Style="{StaticResource NavButtonStyle}"/>
+                        <Button x:Name="NavLogs" Content="Logs" Style="{StaticResource NavButtonStyle}"/>
+                        <Button x:Name="NavAbout" Content="About" Style="{StaticResource NavButtonStyle}"/>
                     </StackPanel>
                 </Border>
                 
@@ -516,7 +510,8 @@ function Initialize-MainWindow {
                                         <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
                                         <GridViewColumn Header="Category" Width="120" DisplayMemberBinding="{Binding Category}"/>
                                         <GridViewColumn Header="Provider" Width="80" DisplayMemberBinding="{Binding Provider}"/>
-                                        <GridViewColumn Header="Description" Width="300" DisplayMemberBinding="{Binding Description}"/>
+                                        <GridViewColumn Header="Status" Width="90" DisplayMemberBinding="{Binding InstalledStatus}"/>
+                                        <GridViewColumn Header="Description" Width="250" DisplayMemberBinding="{Binding Description}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -743,6 +738,36 @@ function Initialize-MainWindow {
     return $window
 }
 
+function Set-KMStatus {
+    param(
+        [System.Windows.Window]$Window,
+        [string]$Message,
+        [ValidateSet("Info", "Success", "Warning", "Error")]
+        [string]$Level = "Info"
+    )
+
+    $statusBar = $Window.FindName("StatusBarText")
+    if (-not $statusBar) { return }
+
+    $statusBar.Text = $Message
+    switch ($Level) {
+        "Success" { $statusBar.Foreground = $Window.FindResource("SuccessGreen") }
+        "Warning" { $statusBar.Foreground = $Window.FindResource("WarningYellow") }
+        "Error" { $statusBar.Foreground = $Window.FindResource("DangerRed") }
+        default { $statusBar.Foreground = $Window.FindResource("TextSecondary") }
+    }
+}
+
+function Refresh-KMLogs {
+    param([System.Windows.Window]$Window)
+
+    $logOutput = $Window.FindName("LogOutput")
+    if ($logOutput) {
+        $logOutput.Text = Get-KMLogContent
+        $logOutput.ScrollToEnd()
+    }
+}
+
 #endregion
 
 #region Main Application Logic
@@ -781,6 +806,13 @@ function Start-MainApplication {
     if ($script:IsAdmin) {
         $adminBadge.Visibility = "Visible"
     }
+
+    $Window.Title = Get-KMBrandingValue -Name "appTitle" -Fallback "Key Methods Workbench"
+    $Window.FindName("FooterVersion").Text = "v$(Get-KMBrandingValue -Name 'version' -Fallback $script:AppVersion)"
+    $Window.FindName("AboutUrl").Text = Get-KMBrandingValue -Name "websiteUrl" -Fallback $script:HostedBaseUrl
+    $Window.FindName("AboutUrl").Add_MouseLeftButtonUp({
+        Start-Process $Window.FindName("AboutUrl").Text
+    })
     
     # Load logo
     $logoImage = $Window.FindName("LogoImage")
@@ -863,6 +895,9 @@ function Start-MainApplication {
     # Initialize Repairs Tab
     Initialize-RepairsTab -Window $Window -Config $script:RepairActions
     
+    # Initialize Tweaks Tab
+    Initialize-TweaksTab -Window $Window
+
     # Initialize Maintenance Tab
     Initialize-MaintenanceTab -Window $Window -Config $script:MaintenanceActions
     
@@ -871,54 +906,116 @@ function Start-MainApplication {
     
     # Quick Actions handlers
     $Window.FindName("QuickFlushDNS").Add_Click({
-        Write-KMLog -Message "Running: ipconfig /flushdns" -Level "Info"
-        $result = Invoke-KMCommand -Command "ipconfig" -Arguments @("/flushdns")
+        $result = Invoke-KMRepair -RepairAction (ConvertTo-KMHashtable ($script:RepairActions | Where-Object { $_.name -eq "Flush DNS Cache" } | Select-Object -First 1))
         if ($result.Success) {
-            [System.Windows.MessageBox]::Show("DNS cache flushed successfully.", "Success", "OK", "Information")
+            Set-KMStatus -Window $Window -Message "DNS cache flushed successfully." -Level "Success"
         } else {
-            [System.Windows.MessageBox]::Show("Failed to flush DNS cache.`n`n$($result.Output)", "Error", "OK", "Error")
+            Set-KMStatus -Window $Window -Message "Failed to flush DNS cache." -Level "Error"
         }
+        Refresh-KMLogs -Window $Window
     })
     
     $Window.FindName("QuickGPUpdate").Add_Click({
-        Write-KMLog -Message "Running: gpupdate /force" -Level "Info"
-        $result = Invoke-KMCommand -Command "gpupdate" -Arguments @("/force")
+        $result = Invoke-KMRepair -RepairAction (ConvertTo-KMHashtable ($script:RepairActions | Where-Object { $_.name -eq "GPUpdate /Force" } | Select-Object -First 1))
         if ($result.Success) {
-            [System.Windows.MessageBox]::Show("Group Policy updated successfully.", "Success", "OK", "Information")
+            Set-KMStatus -Window $Window -Message "Group Policy refreshed successfully." -Level "Success"
         } else {
-            [System.Windows.MessageBox]::Show("Group Policy update completed with warnings.`n`n$($result.Output)", "Warning", "OK", "Warning")
+            Set-KMStatus -Window $Window -Message "Group Policy refresh failed." -Level "Warning"
         }
+        Refresh-KMLogs -Window $Window
     })
     
     $Window.FindName("QuickRestartExplorer").Add_Click({
         $confirm = [System.Windows.MessageBox]::Show("This will restart Windows Explorer. Continue?", "Confirm", "YesNo", "Warning")
         if ($confirm -eq "Yes") {
-            Write-KMLog -Message "Restarting Windows Explorer" -Level "Warning"
-            Stop-Process -Name explorer -Force
-            Start-Sleep -Seconds 2
-            Start-Process explorer
-            Write-KMLog -Message "Explorer restarted" -Level "Success"
+            $result = Invoke-KMRepair -RepairAction (ConvertTo-KMHashtable ($script:RepairActions | Where-Object { $_.name -eq "Restart Explorer" } | Select-Object -First 1))
+            if ($result.Success) {
+                Set-KMStatus -Window $Window -Message "Explorer restarted." -Level "Success"
+            }
+            else {
+                Set-KMStatus -Window $Window -Message "Explorer restart failed." -Level "Error"
+            }
+            Refresh-KMLogs -Window $Window
         }
     })
     
     # Preset button handlers
     $Window.FindName("PresetNewWorkstation").Add_Click({
-        [System.Windows.MessageBox]::Show("New Workstation Setup preset selected.`n`nGo to the Applications tab to select and install the recommended apps.", "Preset Selected", "OK", "Information")
         & $switchTab "Apps"
+        $Window.FindName("AppSelectRecommended").RaiseEvent((New-Object System.Windows.RoutedEventArgs([System.Windows.Controls.Button]::ClickEvent)))
+        Set-KMStatus -Window $Window -Message "New Workstation preset loaded into Applications." -Level "Success"
     })
     
     $Window.FindName("PresetBasicUser").Add_Click({
-        [System.Windows.MessageBox]::Show("Basic User PC preset selected.`n`nGo to the Applications tab to select and install the recommended apps.", "Preset Selected", "OK", "Information")
         & $switchTab "Apps"
+        $preset = $script:Presets.appPresets.BasicUserPC
+        if ($preset) {
+            $Window.FindName("AppSelectNone").RaiseEvent((New-Object System.Windows.RoutedEventArgs([System.Windows.Controls.Button]::ClickEvent)))
+            foreach ($item in $Window.FindName("AppListView").ItemsSource) {
+                $item.IsSelected = $preset.applications -contains $item.Name
+            }
+            $Window.FindName("AppListView").Items.Refresh()
+        }
+        Set-KMStatus -Window $Window -Message "Basic User preset loaded into Applications." -Level "Success"
     })
     
     $Window.FindName("PresetTechBench").Add_Click({
-        [System.Windows.MessageBox]::Show("Technician Bench Build preset selected.`n`nGo to the Applications tab to select and install the recommended apps.", "Preset Selected", "OK", "Information")
         & $switchTab "Apps"
+        $preset = $script:Presets.appPresets.TechBench
+        if ($preset) {
+            $Window.FindName("AppSelectNone").RaiseEvent((New-Object System.Windows.RoutedEventArgs([System.Windows.Controls.Button]::ClickEvent)))
+            foreach ($item in $Window.FindName("AppListView").ItemsSource) {
+                $item.IsSelected = $preset.applications -contains $item.Name
+            }
+            $Window.FindName("AppListView").Items.Refresh()
+        }
+        Set-KMStatus -Window $Window -Message "Tech Bench preset loaded into Applications." -Level "Success"
     })
     
-    # Footer version
-    $Window.FindName("FooterVersion").Text = "v$script:AppVersion"
+    $Window.FindName("MaintWingetUpgrade").Add_Click({
+        $result = Update-KMPackages -Provider "Winget"
+        Set-KMStatus -Window $Window -Message $(if ($result.Winget.Success) { "Winget upgrade completed." } else { "Winget upgrade did not complete successfully." }) -Level $(if ($result.Winget.Success) { "Success" } else { "Warning" })
+        Refresh-KMLogs -Window $Window
+    })
+
+    $Window.FindName("MaintChocoUpgrade").Add_Click({
+        $result = Update-KMPackages -Provider "Chocolatey"
+        Set-KMStatus -Window $Window -Message $(if ($result.Chocolatey.Success) { "Chocolatey upgrade completed." } else { "Chocolatey upgrade did not complete successfully." }) -Level $(if ($result.Chocolatey.Success) { "Success" } else { "Warning" })
+        Refresh-KMLogs -Window $Window
+    })
+
+    $Window.FindName("MaintExportSystem").Add_Click({
+        $saveDialog = New-Object Microsoft.Win32.SaveFileDialog
+        $saveDialog.FileName = "KM-System-Summary-$(Get-Date -Format 'yyyyMMdd-HHmmss').json"
+        $saveDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+
+        if ($saveDialog.ShowDialog() -eq $true) {
+            $result = Export-KMSystemSummary -OutputPath $saveDialog.FileName
+            Set-KMStatus -Window $Window -Message $(if ($result.Success) { "System summary exported." } else { "System summary export failed." }) -Level $(if ($result.Success) { "Success" } else { "Error" })
+        }
+    })
+
+    $Window.FindName("MaintExportApps").Add_Click({
+        $saveDialog = New-Object Microsoft.Win32.SaveFileDialog
+        $saveDialog.FileName = "KM-Installed-Apps-$(Get-Date -Format 'yyyyMMdd-HHmmss').csv"
+        $saveDialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*"
+
+        if ($saveDialog.ShowDialog() -eq $true) {
+            Export-KMInstalledApplications -Path $saveDialog.FileName
+            Set-KMStatus -Window $Window -Message "Installed applications exported." -Level "Success"
+        }
+    })
+
+    $Window.FindName("MaintExportLogs").Add_Click({
+        $saveDialog = New-Object Microsoft.Win32.SaveFileDialog
+        $saveDialog.FileName = "KM-Workbench-Logs-$(Get-Date -Format 'yyyyMMdd-HHmmss').txt"
+        $saveDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+
+        if ($saveDialog.ShowDialog() -eq $true) {
+            $success = Export-KMLogs -DestinationPath $saveDialog.FileName
+            Set-KMStatus -Window $Window -Message $(if ($success) { "Logs exported." } else { "Log export failed." }) -Level $(if ($success) { "Success" } else { "Error" })
+        }
+    })
     
     # Show window
     $Window.ShowDialog() | Out-Null
@@ -933,69 +1030,165 @@ function Initialize-ApplicationsTab {
         [System.Windows.Window]$Window,
         [array]$Config
     )
-    
-    Write-Host "DEBUG: Initialize-ApplicationsTab called with $($Config.Count) items" -ForegroundColor Cyan
-    
+
     $appListView = $Window.FindName("AppListView")
+    $searchBox = $Window.FindName("AppSearchBox")
     $categoryFilter = $Window.FindName("AppCategoryFilter")
-    
+    $presetButton = $Window.FindName("AppSelectRecommended")
+
     if (-not $appListView) {
-        Write-Host "ERROR: AppListView not found!" -ForegroundColor Red
         return
     }
-    
-    # Populate categories
-    $categories = @("All Categories") + ($Config | Select-Object -ExpandProperty Category -Unique | Sort-Object)
+
+    $categories = @("All Categories") + @($Config | Where-Object { $_.enabled -ne $false } | Select-Object -ExpandProperty category -Unique | Sort-Object)
     $categoryFilter.ItemsSource = $categories
-    
-    # Create observable collection for apps
+    $categoryFilter.SelectedIndex = 0
+
     $appCollection = New-Object System.Collections.ObjectModel.ObservableCollection[Object]
-    
-    foreach ($app in $Config) {
-        # Handle both PSCustomObject and Hashtable
+
+    foreach ($app in ($Config | Where-Object { $_.enabled -ne $false })) {
+        $installedStatus = "Available"
+        try {
+            if (Test-KMApplicationInstalled -AppDefinition (ConvertTo-KMHashtable $app)) {
+                $installedStatus = "Installed"
+            }
+        }
+        catch {
+            $installedStatus = "Unknown"
+        }
+
         $appObj = New-Object PSObject -Property @{
             Name = $app.name
             Category = $app.category
             Provider = $app.provider
             Description = $app.description
             PackageId = $app.packageId
+            InstalledStatus = $installedStatus
+            Definition = $app
             IsSelected = $false
         }
         [void]$appCollection.Add($appObj)
     }
-    
+
     $appListView.ItemsSource = $appCollection
-    Write-Host "DEBUG: App list populated with $($appCollection.Count) items" -ForegroundColor Cyan
-    
-    # Button handlers
+    $appView = [System.Windows.Data.CollectionViewSource]::GetDefaultView($appCollection)
+
+    $applyFilter = {
+        $search = if ($searchBox) { $searchBox.Text.Trim().ToLowerInvariant() } else { "" }
+        $category = [string]$categoryFilter.SelectedItem
+
+        $appView.Filter = {
+            param($item)
+
+            if ($category -and $category -ne "All Categories" -and $item.Category -ne $category) {
+                return $false
+            }
+
+            if ([string]::IsNullOrWhiteSpace($search)) {
+                return $true
+            }
+
+            return (($item.Name + " " + $item.Description + " " + $item.Provider + " " + $item.Category).ToLowerInvariant().Contains($search))
+        }
+
+        $appView.Refresh()
+        Set-KMStatus -Window $Window -Message "$(@($appCollection | Where-Object { $_.IsSelected }).Count) app(s) selected." -Level "Info"
+    }
+
+    if ($searchBox) {
+        $searchBox.Text = ""
+        $searchBox.Add_TextChanged({ & $applyFilter })
+    }
+    $categoryFilter.Add_SelectionChanged({ & $applyFilter })
+
     $Window.FindName("AppSelectAll").Add_Click({
         foreach ($app in $appCollection) { $app.IsSelected = $true }
         $appListView.Items.Refresh()
+        Set-KMStatus -Window $Window -Message "$(@($appCollection).Count) app(s) selected." -Level "Info"
     })
-    
+
     $Window.FindName("AppSelectNone").Add_Click({
         foreach ($app in $appCollection) { $app.IsSelected = $false }
         $appListView.Items.Refresh()
+        Set-KMStatus -Window $Window -Message "Application selection cleared." -Level "Info"
     })
-    
+
+    $presetButton.Add_Click({
+        $presetName = if ($script:Presets.appPresets.KeyMethodsStandard) { "KeyMethodsStandard" } else { "NewWorkstation" }
+        $preset = $script:Presets.appPresets.$presetName
+        if ($preset) {
+            foreach ($app in $appCollection) {
+                $app.IsSelected = $preset.applications -contains $app.Name
+            }
+            $appListView.Items.Refresh()
+            Set-KMStatus -Window $Window -Message "Preset '$($preset.name)' applied to the application list." -Level "Success"
+        }
+    })
+
     $Window.FindName("AppInstallSelected").Add_Click({
-        $selectedApps = $appCollection | Where-Object { $_.IsSelected }
+        $selectedApps = @($appCollection | Where-Object { $_.IsSelected })
         if ($selectedApps.Count -eq 0) {
-            [System.Windows.MessageBox]::Show("No applications selected.", "Information", "OK", "Information")
+            [System.Windows.MessageBox]::Show("No applications selected.", "Information", "OK", "Information") | Out-Null
             return
         }
-        
+
         $confirm = [System.Windows.MessageBox]::Show("Install $($selectedApps.Count) application(s)?", "Confirm Installation", "YesNo", "Question")
         if ($confirm -eq "Yes") {
+            $successCount = 0
+            $alreadyCount = 0
+            $failedCount = 0
+
             foreach ($app in $selectedApps) {
-                Write-KMLog -Message "Installing $($app.Name)..." -Level "Info"
-                # Placeholder for actual install logic
-                Start-Sleep -Milliseconds 500
-                Write-KMLog -Message "$($app.Name) installation completed" -Level "Success"
+                $result = Install-KMApplication -AppDefinition (ConvertTo-KMHashtable $app.Definition)
+                if ($result.AlreadyInstalled) {
+                    $alreadyCount++
+                    $app.InstalledStatus = "Installed"
+                }
+                elseif ($result.Success) {
+                    $successCount++
+                    $app.InstalledStatus = "Installed"
+                }
+                else {
+                    $failedCount++
+                }
             }
-            [System.Windows.MessageBox]::Show("Installation process completed.", "Complete", "OK", "Information")
+
+            $appListView.Items.Refresh()
+            Set-KMStatus -Window $Window -Message "Install complete. Success: $successCount. Already installed: $alreadyCount. Failed: $failedCount." -Level $(if ($failedCount -gt 0) { "Warning" } else { "Success" })
+            Refresh-KMLogs -Window $Window
         }
     })
+
+    $Window.FindName("AppUninstallSelected").Add_Click({
+        $selectedApps = @($appCollection | Where-Object { $_.IsSelected })
+        if ($selectedApps.Count -eq 0) {
+            [System.Windows.MessageBox]::Show("No applications selected.", "Information", "OK", "Information") | Out-Null
+            return
+        }
+
+        $confirm = [System.Windows.MessageBox]::Show("Uninstall $($selectedApps.Count) application(s)?", "Confirm Uninstall", "YesNo", "Warning")
+        if ($confirm -eq "Yes") {
+            $successCount = 0
+            $failedCount = 0
+
+            foreach ($app in $selectedApps) {
+                $result = Uninstall-KMApplication -AppDefinition (ConvertTo-KMHashtable $app.Definition)
+                if ($result.Success) {
+                    $successCount++
+                    $app.InstalledStatus = "Available"
+                }
+                else {
+                    $failedCount++
+                }
+            }
+
+            $appListView.Items.Refresh()
+            Set-KMStatus -Window $Window -Message "Uninstall complete. Success: $successCount. Failed: $failedCount." -Level $(if ($failedCount -gt 0) { "Warning" } else { "Success" })
+            Refresh-KMLogs -Window $Window
+        }
+    })
+
+    & $applyFilter
 }
 
 function Initialize-RepairsTab {
@@ -1003,71 +1196,79 @@ function Initialize-RepairsTab {
         [System.Windows.Window]$Window,
         [array]$Config
     )
-    
-    Write-Host "DEBUG: Initialize-RepairsTab called with $($Config.Count) items" -ForegroundColor Cyan
-    
+
     $safePanel = $Window.FindName("SafeRepairsPanel")
     $advancedPanel = $Window.FindName("AdvancedRepairsPanel")
     $dangerousPanel = $Window.FindName("DangerousRepairsPanel")
-    
+
     if (-not $safePanel) {
-        Write-Host "ERROR: SafeRepairsPanel not found!" -ForegroundColor Red
         return
     }
-    
-    # Clear existing
+
     $safePanel.Children.Clear()
     $advancedPanel.Children.Clear()
     $dangerousPanel.Children.Clear()
-    
+
+    $repairCheckboxes = @()
     foreach ($action in $Config) {
+        if ($action.enabled -eq $false) { continue }
+
         $checkbox = New-Object System.Windows.Controls.CheckBox
         $checkbox.Content = $action.name
-        $checkbox.ToolTip = $action.description
         $checkbox.Tag = $action
         $checkbox.Style = $Window.FindResource("DarkCheckBoxStyle")
         $checkbox.Margin = "5"
         $checkbox.Background = [System.Windows.Media.Brushes]::Transparent
-        $checkbox.Foreground = [System.Windows.Media.Brushes]::Black
-        
+        $checkbox.Foreground = $Window.FindResource("TextPrimary")
+        $checkbox.ToolTip = "$($action.description)`nCategory: $($action.category)`nAdmin required: $($action.requiresAdmin)"
+
         switch ($action.dangerLevel) {
             "safe" { [void]$safePanel.Children.Add($checkbox) }
             "advanced" { [void]$advancedPanel.Children.Add($checkbox) }
             "dangerous" { [void]$dangerousPanel.Children.Add($checkbox) }
         }
+
+        $repairCheckboxes += $checkbox
     }
-    
-    # Run Selected button
-    $Window.FindName("RepairRunSelected").Add_Click({
-        $selectedActions = @()
-        
-        # Get panels by name to avoid closure issues
-        $panels = @(
-            $Window.FindName("SafeRepairsPanel"),
-            $Window.FindName("AdvancedRepairsPanel"),
-            $Window.FindName("DangerousRepairsPanel")
-        )
-        
-        foreach ($panel in $panels) {
-            if ($panel -and $panel.Children) {
-                foreach ($child in $panel.Children) {
-                    # IsChecked is nullable boolean, check explicitly
-                    if ($child.IsChecked -eq $true) {
-                        $selectedActions += $child.Tag
-                    }
-                }
+
+    $levelFilter = $Window.FindName("RepairLevelFilter")
+    $levelFilter.ItemsSource = @("All Levels", "Safe Only", "Include Advanced", "Dangerous Only")
+    $levelFilter.SelectedIndex = 0
+    $levelFilter.Add_SelectionChanged({
+        switch ([string]$levelFilter.SelectedItem) {
+            "Safe Only" {
+                $safePanel.Parent.Visibility = "Visible"
+                $advancedPanel.Parent.Visibility = "Collapsed"
+                $dangerousPanel.Parent.Visibility = "Collapsed"
+            }
+            "Include Advanced" {
+                $safePanel.Parent.Visibility = "Visible"
+                $advancedPanel.Parent.Visibility = "Visible"
+                $dangerousPanel.Parent.Visibility = "Collapsed"
+            }
+            "Dangerous Only" {
+                $safePanel.Parent.Visibility = "Collapsed"
+                $advancedPanel.Parent.Visibility = "Collapsed"
+                $dangerousPanel.Parent.Visibility = "Visible"
+            }
+            default {
+                $safePanel.Parent.Visibility = "Visible"
+                $advancedPanel.Parent.Visibility = "Visible"
+                $dangerousPanel.Parent.Visibility = "Visible"
             }
         }
-        
+    })
+
+    $Window.FindName("RepairRunSelected").Add_Click({
+        $selectedActions = @($repairCheckboxes | Where-Object { $_.IsChecked -eq $true } | ForEach-Object { $_.Tag })
         if ($selectedActions.Count -eq 0) {
-            [System.Windows.MessageBox]::Show("No repair actions selected.", "Information", "OK", "Information")
+            [System.Windows.MessageBox]::Show("No repair actions selected.", "Information", "OK", "Information") | Out-Null
             return
         }
-        
-        # Check for dangerous actions
-        $dangerous = $selectedActions | Where-Object { $_.dangerLevel -eq "dangerous" }
+
+        $dangerous = @($selectedActions | Where-Object { $_.dangerLevel -eq "dangerous" })
         if ($dangerous) {
-            $dangerList = $dangerous | ForEach-Object { "• $($_.name)" } | Out-String
+            $dangerList = ($dangerous | ForEach-Object { $_.name }) -join "`n"
             $confirm = [System.Windows.MessageBox]::Show(
                 "The following dangerous actions are selected and require confirmation:`n`n$dangerList`n`nAre you sure you want to continue?",
                 "Confirm Dangerous Actions",
@@ -1078,20 +1279,84 @@ function Initialize-RepairsTab {
                 return
             }
         }
-        
-        # Execute actions
+
+        $successCount = 0
+        $failedCount = 0
+        $rebootRecommended = $false
         foreach ($action in $selectedActions) {
-            Write-KMLog -Message "Running repair: $($action.name)" -Level "Info"
-            $result = Invoke-KMCommand -Command $action.command -Arguments $action.arguments
+            $result = Invoke-KMRepair -RepairAction (ConvertTo-KMHashtable $action) -ConfirmDangerous
             if ($result.Success) {
-                Write-KMLog -Message "$($action.name) completed successfully" -Level "Success"
-            } else {
-                Write-KMLog -Message "$($action.name) failed: $($result.Error)" -Level "Error"
+                $successCount++
+                if ($result.RequiresReboot) {
+                    $rebootRecommended = $true
+                }
+            }
+            else {
+                $failedCount++
             }
         }
-        
-        [System.Windows.MessageBox]::Show("Selected repairs completed. Check the Logs tab for details.", "Complete", "OK", "Information")
+
+        Set-KMStatus -Window $Window -Message "Repairs completed. Success: $successCount. Failed: $failedCount$(if ($rebootRecommended) { '. Reboot recommended.' } else { '.' })" -Level $(if ($failedCount -gt 0) { "Warning" } else { "Success" })
+        Refresh-KMLogs -Window $Window
     })
+}
+
+function Initialize-TweaksTab {
+    param(
+        [System.Windows.Window]$Window
+    )
+
+    $mapping = @{
+        TweakShowFileExtensions = "ShowFileExtensions"
+        TweakShowHiddenFiles = "ShowHiddenFiles"
+        TweakShowProtectedFiles = "ShowProtectedOSFiles"
+        TweakDisableFastStartup = "DisableFastStartup"
+        TweakEnableRDP = "EnableRDP"
+        TweakEnableRemoteAssistance = "EnableRemoteAssistance"
+    }
+
+    $refreshTweaks = {
+        $tweakState = @{}
+        foreach ($tweak in Get-KMTweaks) {
+            $tweakState[$tweak.id] = $tweak.currentValue
+        }
+
+        foreach ($entry in $mapping.GetEnumerator()) {
+            $control = $Window.FindName($entry.Key)
+            if ($control) {
+                $control.IsChecked = [bool]$tweakState[$entry.Value]
+            }
+        }
+    }
+
+    $Window.FindName("TweaksApply").Add_Click({
+        $failed = @()
+        $restartRecommended = $false
+
+        foreach ($entry in $mapping.GetEnumerator()) {
+            $control = $Window.FindName($entry.Key)
+            $result = Apply-KMTweak -TweakId $entry.Value -Enable ([bool]$control.IsChecked)
+            if (-not $result.Success) {
+                $failed += $entry.Value
+            }
+            if ($result.RequiresRestart) {
+                $restartRecommended = $true
+            }
+        }
+
+        & $refreshTweaks
+
+        if ($failed.Count -gt 0) {
+            Set-KMStatus -Window $Window -Message "Some tweaks failed: $($failed -join ', ')." -Level "Warning"
+        }
+        else {
+            Set-KMStatus -Window $Window -Message $(if ($restartRecommended) { "Tweaks applied. Restart recommended." } else { "Tweaks applied successfully." }) -Level "Success"
+        }
+
+        Refresh-KMLogs -Window $Window
+    })
+
+    & $refreshTweaks
 }
 
 function Initialize-MaintenanceTab {
@@ -1108,20 +1373,27 @@ function Initialize-MaintenanceTab {
         $button.ToolTip = $action.description
         $button.Style = $Window.FindResource("ActionButtonStyle")
         $button.Margin = "5"
-        
+        $toolId = [string]$action.id
+        $toolName = [string]$action.name
+
         $button.Add_Click({
-            Write-KMLog -Message "Launching: $($action.name)" -Level "Info"
-            try {
-                if ($action.command -eq "shell" -and $action.shellCommand) {
-                    Start-Process $action.shellCommand -ArgumentList $action.arguments
-                } else {
-                    Start-Process $action.command -ArgumentList $action.arguments
+            if ($toolId -in @("restartcomputer", "shutdowncomputer")) {
+                $confirm = [System.Windows.MessageBox]::Show("Run '$toolName'?", "Confirm Maintenance Action", "YesNo", "Warning")
+                if ($confirm -ne "Yes") {
+                    return
                 }
             }
-            catch {
-                Write-KMLog -Message "Failed to launch $($action.name): $_" -Level "Error"
+
+            $result = Start-KMMaintenanceTool -ToolId $toolId
+            if ($result.Success) {
+                Set-KMStatus -Window $Window -Message "$toolName launched." -Level "Success"
             }
-        })
+            else {
+                Set-KMStatus -Window $Window -Message "Failed to launch $toolName." -Level "Error"
+            }
+
+            Refresh-KMLogs -Window $Window
+        }.GetNewClosure())
         
         [void]$toolsPanel.Children.Add($button)
     }
@@ -1132,21 +1404,13 @@ function Initialize-LogsTab {
         [System.Windows.Window]$Window
     )
     
-    $logOutput = $Window.FindName("LogOutput")
-    $statusBar = $Window.FindName("StatusBarText")
-    
-    # Function to refresh logs
     $refreshLogs = {
-        $logContent = Get-KMLogContent
-        $logOutput.Text = $logContent
-        $logOutput.ScrollToEnd()
-        $statusBar.Text = "Last updated: $(Get-Date -Format 'HH:mm:ss')"
+        Refresh-KMLogs -Window $Window
+        Set-KMStatus -Window $Window -Message "Logs refreshed at $(Get-Date -Format 'HH:mm:ss')." -Level "Info"
     }
-    
-    # Initial load
+
     & $refreshLogs
-    
-    # Button handlers
+
     $Window.FindName("LogRefresh").Add_Click($refreshLogs)
     
     $Window.FindName("LogClear").Add_Click({

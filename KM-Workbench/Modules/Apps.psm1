@@ -75,7 +75,7 @@ function Install-KMApplication {
     #>
     param(
         [Parameter(Mandatory = $true)]
-        [hashtable]$AppDefinition,
+        [object]$AppDefinition,
         
         [switch]$Force
     )
@@ -129,7 +129,7 @@ function Install-KMApplication {
 }
 
 function Install-KMAppWinget {
-    param([hashtable]$AppDefinition)
+    param([object]$AppDefinition)
     
     $packageId = $AppDefinition.packageId
     $arguments = @("install", "--id", $packageId, "--accept-source-agreements", "--accept-package-agreements", "-h")
@@ -143,7 +143,7 @@ function Install-KMAppWinget {
 }
 
 function Install-KMAppChocolatey {
-    param([hashtable]$AppDefinition)
+    param([object]$AppDefinition)
     
     $packageId = $AppDefinition.packageId
     $arguments = @("install", $packageId, "-y")
@@ -156,7 +156,7 @@ function Install-KMAppChocolatey {
 }
 
 function Install-KMAppCustom {
-    param([hashtable]$AppDefinition)
+    param([object]$AppDefinition)
     
     if ($AppDefinition.installCommand) {
         return Invoke-KMPowerShell -Command $AppDefinition.installCommand
@@ -167,7 +167,7 @@ function Install-KMAppCustom {
 }
 
 function Install-KMAppMSI {
-    param([hashtable]$AppDefinition)
+    param([object]$AppDefinition)
     
     $arguments = @("/i", "`"$($AppDefinition.installerPath)`"", "/qn", "/norestart")
     
@@ -179,7 +179,7 @@ function Install-KMAppMSI {
 }
 
 function Install-KMAppEXE {
-    param([hashtable]$AppDefinition)
+    param([object]$AppDefinition)
     
     $arguments = @()
     
@@ -200,7 +200,7 @@ function Uninstall-KMApplication {
     #>
     param(
         [Parameter(Mandatory = $true)]
-        [hashtable]$AppDefinition
+        [object]$AppDefinition
     )
     
     $appName = $AppDefinition.name
@@ -250,7 +250,7 @@ function Test-KMApplicationInstalled {
     #>
     param(
         [Parameter(Mandatory = $true)]
-        [hashtable]$AppDefinition
+        [object]$AppDefinition
     )
     
     $packageId = $AppDefinition.packageId

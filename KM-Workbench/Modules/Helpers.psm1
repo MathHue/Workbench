@@ -497,7 +497,15 @@ function Set-KMRegistryValue {
             New-Item -Path $Path -Force | Out-Null
         }
         
-        Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force
+        $propertyType = [Microsoft.Win32.RegistryValueKind]::$Type
+
+        if (Get-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue) {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Force
+        }
+        else {
+            New-ItemProperty -Path $Path -Name $Name -Value $Value -PropertyType $propertyType -Force | Out-Null
+        }
+
         Write-KMLog -Message "Set registry: $Path\$Name = $Value" -Level "Info"
         return $true
     }

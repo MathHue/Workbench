@@ -51,6 +51,9 @@ function Start-KMMaintenanceTool {
         if ($tool.commandType -eq "shell") {
             Start-Process $tool.shellCommand -ArgumentList $tool.arguments
         }
+        elseif ($tool.commandType -eq "powershell" -and $tool.scriptBlock) {
+            Invoke-KMPowerShell -Command $tool.scriptBlock | Out-Null
+        }
         else {
             Start-Process $tool.command -ArgumentList $tool.arguments
         }
