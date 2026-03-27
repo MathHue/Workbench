@@ -1248,16 +1248,30 @@ function Initialize-RepairsTab {
         $checkbox = New-Object System.Windows.Controls.CheckBox
         $checkbox.Content = $action.name
         $checkbox.Tag = $action
-        $checkbox.Style = $Window.FindResource("DarkCheckBoxStyle")
         $checkbox.Margin = "5"
-        $checkbox.Background = [System.Windows.Media.Brushes]::Transparent
-        $checkbox.Foreground = $Window.FindResource("TextPrimary")
-        $checkbox.ToolTip = "$($action.description)`nCategory: $($action.category)`nAdmin required: $($action.requiresAdmin)"
+        $checkbox.Foreground = [System.Windows.Media.Brushes]::White
+        $checkbox.ToolTip = [string]::Join(
+            [Environment]::NewLine,
+            @(
+                [string]$action.description
+                "Category: $($action.category)"
+                "Admin required: $($action.requiresAdmin)"
+            )
+        )
 
-        switch ($action.dangerLevel) {
-            "safe" { [void]$safePanel.Children.Add($checkbox) }
-            "advanced" { [void]$advancedPanel.Children.Add($checkbox) }
-            "dangerous" { [void]$dangerousPanel.Children.Add($checkbox) }
+        $targetPanel = switch ([string]$action.dangerLevel) {
+            "safe" { $safePanel; break }
+            "advanced" { $advancedPanel; break }
+            "dangerous" { $dangerousPanel; break }
+            default { $safePanel }
+        }
+
+        try {
+            [void]$targetPanel.Children.Add($checkbox)
+        }
+        catch {
+            Write-KMLog -Message "Skipped repair UI element for '$($action.name)': $_" -Level "Warning"
+            continue
         }
 
         $repairCheckboxes += $checkbox
