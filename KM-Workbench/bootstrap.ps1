@@ -213,7 +213,9 @@ function Invoke-FileDownload {
             $retryCount++
             Write-BootstrapLog -Level "Info" -Message "Downloading: $Url (Attempt $retryCount/$MaxRetries)"
             
-            Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing -TimeoutSec 60 -ErrorAction Stop
+            # Add cache-busting query parameter to force fresh download from GitHub
+            $cacheBustUrl = "$Url`?t=$(Get-Date -Format 'yyyyMMddHHmmss')"
+            Invoke-WebRequest -Uri $cacheBustUrl -OutFile $Destination -UseBasicParsing -TimeoutSec 60 -ErrorAction Stop
             
             if (Test-Path $Destination) {
                 $fileSize = (Get-Item $Destination).Length
