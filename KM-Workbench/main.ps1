@@ -884,6 +884,22 @@ function Start-MainApplication {
         }
     })
     
+    # Preset button handlers
+    $Window.FindName("PresetNewWorkstation").Add_Click({
+        [System.Windows.MessageBox]::Show("New Workstation Setup preset selected.`n`nGo to the Applications tab to select and install the recommended apps.", "Preset Selected", "OK", "Information")
+        & $switchTab "Apps"
+    })
+    
+    $Window.FindName("PresetBasicUser").Add_Click({
+        [System.Windows.MessageBox]::Show("Basic User PC preset selected.`n`nGo to the Applications tab to select and install the recommended apps.", "Preset Selected", "OK", "Information")
+        & $switchTab "Apps"
+    })
+    
+    $Window.FindName("PresetTechBench").Add_Click({
+        [System.Windows.MessageBox]::Show("Technician Bench Build preset selected.`n`nGo to the Applications tab to select and install the recommended apps.", "Preset Selected", "OK", "Information")
+        & $switchTab "Apps"
+    })
+    
     # Footer version
     $Window.FindName("FooterVersion").Text = "v$script:AppVersion"
     
