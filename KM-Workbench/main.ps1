@@ -242,18 +242,17 @@ function Initialize-MainWindow {
                         <Border x:Name="NavBorder"
                                 Background="{TemplateBinding Background}" 
                                 BorderBrush="{StaticResource PrimaryBlue}"
-                                BorderThickness="4,0,0,0"
-                                Opacity="0">
+                                BorderThickness="4,0,0,0">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="Center"
                                             Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource LightBackground}"/>
+                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource LightBackground}"/>
                             </Trigger>
                             <Trigger Property="Tag" Value="Selected">
-                                <Setter Property="Background" Value="{StaticResource LightBackground}"/>
+                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource LightBackground}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter TargetName="NavBorder" Property="Opacity" Value="1"/>
                             </Trigger>
@@ -343,6 +342,7 @@ function Initialize-MainWindow {
             <Setter Property="BorderBrush" Value="{StaticResource LightBackground}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="{StaticResource DarkerBackground}"/>
         </Style>
     </Window.Resources>
     
@@ -555,17 +555,17 @@ function Initialize-MainWindow {
                                 <StackPanel x:Name="RepairsContainer">
                                     <!-- Safe Repairs Section -->
                                     <GroupBox Header="Safe Repairs" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="SafeRepairsPanel" Margin="10"/>
+                                        <WrapPanel x:Name="SafeRepairsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
                                     </GroupBox>
                                     
                                     <!-- Advanced Repairs Section -->
                                     <GroupBox Header="Advanced Repairs (Use with caution)" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="AdvancedRepairsPanel" Margin="10"/>
+                                        <WrapPanel x:Name="AdvancedRepairsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
                                     </GroupBox>
                                     
                                     <!-- Dangerous Repairs Section -->
                                     <GroupBox Header="⚠️ Dangerous Repairs (Confirmation Required)" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="DangerousRepairsPanel" Margin="10"/>
+                                        <WrapPanel x:Name="DangerousRepairsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
                                     </GroupBox>
                                 </StackPanel>
                             </ScrollViewer>
@@ -643,7 +643,7 @@ function Initialize-MainWindow {
                                     
                                     <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                         <GroupBox Header="Windows Tools" Style="{StaticResource DarkGroupBoxStyle}">
-                                            <WrapPanel x:Name="MaintenanceToolsPanel" Margin="10"/>
+                                            <WrapPanel x:Name="MaintenanceToolsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
                                         </GroupBox>
                                         
                                         <GroupBox Header="Package Managers" Style="{StaticResource DarkGroupBoxStyle}">
@@ -1025,6 +1025,8 @@ function Initialize-RepairsTab {
         $checkbox.Tag = $action
         $checkbox.Style = $Window.FindResource("DarkCheckBoxStyle")
         $checkbox.Margin = "5"
+        $checkbox.Background = [System.Windows.Media.Brushes]::Transparent
+        $checkbox.Foreground = [System.Windows.Media.Brushes]::White
         
         switch ($action.dangerLevel) {
             "safe" { [void]$safePanel.Children.Add($checkbox) }
