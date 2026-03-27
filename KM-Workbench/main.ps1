@@ -143,6 +143,12 @@ catch {
     Write-Warning "Failed to load presets configuration: $_"
 }
 
+# Debug: Show what we loaded
+Write-Host "DEBUG: Applications loaded: $($script:Applications.Count)" -ForegroundColor Yellow
+Write-Host "DEBUG: RepairActions loaded: $($script:RepairActions.Count)" -ForegroundColor Yellow
+Write-Host "DEBUG: MaintenanceActions loaded: $($script:MaintenanceActions.Count)" -ForegroundColor Yellow
+Write-Host "DEBUG: First app name: $($script:Applications[0].name)" -ForegroundColor Yellow
+
 # Import all modules
 $modules = @("Helpers.psm1", "Logging.psm1", "Branding.psm1", "Apps.psm1", "Repairs.psm1", "Tweaks.psm1", "Maintenance.psm1", "UI.psm1")
 foreach ($module in $modules) {
@@ -917,8 +923,15 @@ function Initialize-ApplicationsTab {
         [array]$Config
     )
     
+    Write-Host "DEBUG: Initialize-ApplicationsTab called with $($Config.Count) items" -ForegroundColor Cyan
+    
     $appListView = $Window.FindName("AppListView")
     $categoryFilter = $Window.FindName("AppCategoryFilter")
+    
+    if (-not $appListView) {
+        Write-Host "ERROR: AppListView not found!" -ForegroundColor Red
+        return
+    }
     
     # Populate categories
     $categories = @("All Categories") + ($Config | Select-Object -ExpandProperty Category -Unique | Sort-Object)
@@ -940,6 +953,7 @@ function Initialize-ApplicationsTab {
     }
     
     $appListView.ItemsSource = $appCollection
+    Write-Host "DEBUG: App list populated with $($appCollection.Count) items" -ForegroundColor Cyan
     
     # Button handlers
     $Window.FindName("AppSelectAll").Add_Click({
@@ -978,9 +992,16 @@ function Initialize-RepairsTab {
         [array]$Config
     )
     
+    Write-Host "DEBUG: Initialize-RepairsTab called with $($Config.Count) items" -ForegroundColor Cyan
+    
     $safePanel = $Window.FindName("SafeRepairsPanel")
     $advancedPanel = $Window.FindName("AdvancedRepairsPanel")
     $dangerousPanel = $Window.FindName("DangerousRepairsPanel")
+    
+    if (-not $safePanel) {
+        Write-Host "ERROR: SafeRepairsPanel not found!" -ForegroundColor Red
+        return
+    }
     
     # Clear existing
     $safePanel.Children.Clear()
