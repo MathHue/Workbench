@@ -64,7 +64,8 @@ function Convert-JsonToHashtable {
         if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -isnot [string]) {
             $collection = @()
             foreach ($item in $InputObject) {
-                $collection += (Convert-JsonToHashtable $item)
+                $converted = Convert-JsonToHashtable $item
+                $collection += $converted
             }
             return $collection
         }
@@ -81,7 +82,20 @@ function Convert-JsonToHashtable {
     }
 }
 
-# Load configuration files
+# Helper function to convert JSON array to ArrayList of PSCustomObjects (simpler approach)
+function Convert-JsonToObjects {
+    param([string]$JsonFile)
+    
+    if (-not (Test-Path $JsonFile)) { return @() }
+    
+    $content = Get-Content $JsonFile -Raw
+    if ([string]::IsNullOrWhiteSpace($content)) { return @() }
+    
+    # Simply return the objects from ConvertFrom-Json - they work fine as PSCustomObject
+    return $content | ConvertFrom-Json
+}
+
+# Load configuration files - use PSCustomObjects directly (simpler and more reliable)
 $script:Branding = @{}
 $script:Applications = @()
 $script:RepairActions = @()
@@ -91,8 +105,7 @@ $script:Presets = @{}
 try {
     $brandingFile = Join-Path $script:ConfigPath "branding.json"
     if (Test-Path $brandingFile) {
-        $json = Get-Content $brandingFile -Raw | ConvertFrom-Json
-        $script:Branding = Convert-JsonToHashtable $json
+        $script:Branding = Get-Content $brandingFile -Raw | ConvertFrom-Json
     }
 }
 catch {
@@ -102,8 +115,7 @@ catch {
 try {
     $appsFile = Join-Path $script:ConfigPath "applications.json"
     if (Test-Path $appsFile) {
-        $json = Get-Content $appsFile -Raw | ConvertFrom-Json
-        $script:Applications = Convert-JsonToHashtable $json
+        $script:Applications = @(Get-Content $appsFile -Raw | ConvertFrom-Json)
     }
 }
 catch {
@@ -113,8 +125,7 @@ catch {
 try {
     $repairsFile = Join-Path $script:ConfigPath "repair-actions.json"
     if (Test-Path $repairsFile) {
-        $json = Get-Content $repairsFile -Raw | ConvertFrom-Json
-        $script:RepairActions = Convert-JsonToHashtable $json
+        $script:RepairActions = @(Get-Content $repairsFile -Raw | ConvertFrom-Json)
     }
 }
 catch {
@@ -124,8 +135,7 @@ catch {
 try {
     $maintenanceFile = Join-Path $script:ConfigPath "maintenance-actions.json"
     if (Test-Path $maintenanceFile) {
-        $json = Get-Content $maintenanceFile -Raw | ConvertFrom-Json
-        $script:MaintenanceActions = Convert-JsonToHashtable $json
+        $script:MaintenanceActions = @(Get-Content $maintenanceFile -Raw | ConvertFrom-Json)
     }
 }
 catch {
@@ -135,8 +145,7 @@ catch {
 try {
     $presetsFile = Join-Path $script:ConfigPath "presets.json"
     if (Test-Path $presetsFile) {
-        $json = Get-Content $presetsFile -Raw | ConvertFrom-Json
-        $script:Presets = Convert-JsonToHashtable $json
+        $script:Presets = Get-Content $presetsFile -Raw | ConvertFrom-Json
     }
 }
 catch {
@@ -941,6 +950,7 @@ function Initialize-ApplicationsTab {
     $appCollection = New-Object System.Collections.ObjectModel.ObservableCollection[Object]
     
     foreach ($app in $Config) {
+        # Handle both PSCustomObject and Hashtable
         $appObj = New-Object PSObject -Property @{
             Name = $app.name
             Category = $app.category
@@ -949,7 +959,7 @@ function Initialize-ApplicationsTab {
             PackageId = $app.packageId
             IsSelected = $false
         }
-        $appCollection.Add($appObj)
+        [void]$appCollection.Add($appObj)
     }
     
     $appListView.ItemsSource = $appCollection
@@ -1017,9 +1027,9 @@ function Initialize-RepairsTab {
         $checkbox.Margin = "5"
         
         switch ($action.dangerLevel) {
-            "safe" { $safePanel.Children.Add($checkbox) }
-            "advanced" { $advancedPanel.Children.Add($checkbox) }
-            "dangerous" { $dangerousPanel.Children.Add($checkbox) }
+            "safe" { [void]$safePanel.Children.Add($checkbox) }
+            "advanced" { [void]$advancedPanel.Children.Add($checkbox) }
+            "dangerous" { [void]$dangerousPanel.Children.Add($checkbox) }
         }
     }
     
@@ -1099,7 +1109,7 @@ function Initialize-MaintenanceTab {
             }
         })
         
-        $toolsPanel.Children.Add($button)
+        [void]$toolsPanel.Children.Add($button)
     }
 }
 
