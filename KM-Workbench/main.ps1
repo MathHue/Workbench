@@ -1041,10 +1041,20 @@ function Initialize-RepairsTab {
     $Window.FindName("RepairRunSelected").Add_Click({
         $selectedActions = @()
         
-        foreach ($panel in @($safePanel, $advancedPanel, $dangerousPanel)) {
-            foreach ($child in $panel.Children) {
-                if ($child.IsChecked -eq $true) {
-                    $selectedActions += $child.Tag
+        # Get panels by name to avoid closure issues
+        $panels = @(
+            $Window.FindName("SafeRepairsPanel"),
+            $Window.FindName("AdvancedRepairsPanel"),
+            $Window.FindName("DangerousRepairsPanel")
+        )
+        
+        foreach ($panel in $panels) {
+            if ($panel -and $panel.Children) {
+                foreach ($child in $panel.Children) {
+                    # IsChecked is nullable boolean, check explicitly
+                    if ($child.IsChecked -eq $true) {
+                        $selectedActions += $child.Tag
+                    }
                 }
             }
         }
