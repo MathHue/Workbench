@@ -6,6 +6,14 @@
 $script:AppCache = @{}
 $script:SupportedProviders = @("Winget", "Chocolatey", "Custom", "MSI", "EXE")
 
+function Get-KMAppsConfigPath {
+    $configRoot = Join-Path (Split-Path -Path $PSScriptRoot -Parent) "Config"
+    return @{
+        Applications = Join-Path $configRoot "applications.json"
+        Presets = Join-Path $configRoot "presets.json"
+    }
+}
+
 function Get-KMApplicationCatalog {
     <#
     .SYNOPSIS
@@ -26,7 +34,7 @@ function Get-KMApplicationCatalog {
         [string]$Search = $null
     )
     
-    $configPath = Join-Path $script:ConfigPath "applications.json"
+    $configPath = (Get-KMAppsConfigPath).Applications
     
     try {
         if (Test-Path $configPath) {
@@ -259,8 +267,8 @@ function Test-KMApplicationInstalled {
     switch ($provider) {
         "Winget" {
             try {
-                $result = winget list --id $packageId 2>&1
-                return $result -notmatch "No installed package found"
+                $result = winget list --id $packageId 2>&1 | Out-String
+                return (-not [string]::IsNullOrWhiteSpace($result)) -and ($result -notmatch "No installed package found")
             }
             catch {
                 return $false
@@ -268,8 +276,8 @@ function Test-KMApplicationInstalled {
         }
         "Chocolatey" {
             try {
-                $result = choco list --local-only $packageId 2>&1
-                return $result -match "^$packageId"
+                $result = choco list --local-only $packageId 2>&1 | Out-String
+                return $result -match "(?m)^$([regex]::Escape($packageId))(\s|$)"
             }
             catch {
                 return $false
@@ -376,14 +384,15 @@ function Get-KMApplicationsFromPreset {
         [string]$PresetName
     )
     
-    $configPath = Join-Path $script:ConfigPath "presets.json"
+    $configPath = (Get-KMAppsConfigPath).Presets
     
     try {
         if (Test-Path $configPath) {
             $presets = Get-Content $configPath -Raw | ConvertFrom-Json
-            
-            if ($presets.appPresets[$PresetName]) {
-                $appNames = $presets.appPresets[$PresetName].applications
+
+            $preset = $presets.appPresets.PSObject.Properties[$PresetName].Value
+            if ($preset) {
+                $appNames = @($preset.applications)
                 $allApps = Get-KMApplicationCatalog
                 
                 return $allApps | Where-Object { $appNames -contains $_.name }
@@ -403,7 +412,15 @@ function Get-KMAppCategories {
         Gets all unique application categories.
     #>
     $apps = Get-KMApplicationCatalog
-    return $apps | Select-Object -ExpandProperty category -Unique | Sort-Object
+    return @(
+        $apps |
+            Where-Object {
+                $_.PSObject.Properties.Match("category").Count -gt 0 -and
+                -not [string]::IsNullOrWhiteSpace([string]$_.category)
+            } |
+            ForEach-Object { [string]$_.category } |
+            Sort-Object -Unique
+    )
 }
 
 function Get-KMDefaultAppCatalog {

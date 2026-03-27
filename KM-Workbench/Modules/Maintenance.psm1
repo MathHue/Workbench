@@ -3,12 +3,17 @@
 # ============================================================================
 # Maintenance utilities and system management functions
 
+function Get-KMMaintenanceConfigPath {
+    $configRoot = Join-Path (Split-Path -Path $PSScriptRoot -Parent) "Config"
+    return Join-Path $configRoot "maintenance-actions.json"
+}
+
 function Get-KMMaintenanceActions {
     <#
     .SYNOPSIS
         Gets available maintenance actions from configuration.
     #>
-    $configPath = Join-Path $script:ConfigPath "maintenance-actions.json"
+    $configPath = Get-KMMaintenanceConfigPath
     
     try {
         if (Test-Path $configPath) {
@@ -49,16 +54,21 @@ function Start-KMMaintenanceTool {
     
     try {
         if ($tool.commandType -eq "shell") {
-            Start-Process $tool.shellCommand -ArgumentList $tool.arguments
+            Start-Process -FilePath $tool.shellCommand -ArgumentList $tool.arguments | Out-Null
+            return @{ Success = $true }
         }
         elseif ($tool.commandType -eq "powershell" -and $tool.scriptBlock) {
-            Invoke-KMPowerShell -Command $tool.scriptBlock | Out-Null
+            $psResult = Invoke-KMPowerShell -Command $tool.scriptBlock
+            return @{
+                Success = [bool]$psResult.Success
+                Output = $psResult.Output
+                Error = $psResult.Error
+            }
         }
         else {
-            Start-Process $tool.command -ArgumentList $tool.arguments
+            Start-Process -FilePath $tool.command -ArgumentList $tool.arguments | Out-Null
+            return @{ Success = $true }
         }
-        
-        return @{ Success = $true }
     }
     catch {
         Write-KMLog -Message "Failed to launch tool: $_" -Level "Error"

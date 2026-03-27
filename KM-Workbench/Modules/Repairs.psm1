@@ -5,6 +5,11 @@
 
 $script:RepairCategories = @("Safe", "Advanced", "Dangerous")
 
+function Get-KMRepairsConfigPath {
+    $configRoot = Join-Path (Split-Path -Path $PSScriptRoot -Parent) "Config"
+    return Join-Path $configRoot "repair-actions.json"
+}
+
 function Get-KMRepairActions {
     <#
     .SYNOPSIS
@@ -20,10 +25,10 @@ function Get-KMRepairActions {
         [ValidateSet("safe", "advanced", "dangerous")]
         [string]$Category = $null,
         
-        [bool]$RequiresAdmin = $null
+        [Nullable[bool]]$RequiresAdmin = $null
     )
     
-    $configPath = Join-Path $script:ConfigPath "repair-actions.json"
+    $configPath = Get-KMRepairsConfigPath
     
     try {
         if (Test-Path $configPath) {

@@ -53,7 +53,7 @@ Log File: $script:LogFile
 
 "@
     
-    $header | Set-Content -Path $script:LogFile -Encoding UTF8
+    Set-Content -Path $script:LogFile -Value $header -Encoding UTF8
     
     Write-Host "Logging initialized: $script:LogFile" -ForegroundColor Green
 }

@@ -95,6 +95,14 @@ function Convert-JsonToObjects {
     return $content | ConvertFrom-Json
 }
 
+function ConvertTo-KMHashtable {
+    param([Parameter(ValueFromPipeline = $true)]$InputObject)
+
+    process {
+        Convert-JsonToHashtable -InputObject $InputObject
+    }
+}
+
 function Get-KMBrandingValue {
     param(
         [Parameter(Mandatory = $true)]
