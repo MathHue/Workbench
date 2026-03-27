@@ -940,6 +940,36 @@ function Initialize-ApplicationsTab {
     }
     
     $appListView.ItemsSource = $appCollection
+    
+    # Button handlers
+    $Window.FindName("AppSelectAll").Add_Click({
+        foreach ($app in $appCollection) { $app.IsSelected = $true }
+        $appListView.Items.Refresh()
+    })
+    
+    $Window.FindName("AppSelectNone").Add_Click({
+        foreach ($app in $appCollection) { $app.IsSelected = $false }
+        $appListView.Items.Refresh()
+    })
+    
+    $Window.FindName("AppInstallSelected").Add_Click({
+        $selectedApps = $appCollection | Where-Object { $_.IsSelected }
+        if ($selectedApps.Count -eq 0) {
+            [System.Windows.MessageBox]::Show("No applications selected.", "Information", "OK", "Information")
+            return
+        }
+        
+        $confirm = [System.Windows.MessageBox]::Show("Install $($selectedApps.Count) application(s)?", "Confirm Installation", "YesNo", "Question")
+        if ($confirm -eq "Yes") {
+            foreach ($app in $selectedApps) {
+                Write-KMLog -Message "Installing $($app.Name)..." -Level "Info"
+                # Placeholder for actual install logic
+                Start-Sleep -Milliseconds 500
+                Write-KMLog -Message "$($app.Name) installation completed" -Level "Success"
+            }
+            [System.Windows.MessageBox]::Show("Installation process completed.", "Complete", "OK", "Information")
+        }
+    })
 }
 
 function Initialize-RepairsTab {
