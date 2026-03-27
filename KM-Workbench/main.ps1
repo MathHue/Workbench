@@ -499,7 +499,7 @@ function Initialize-MainWindow {
                                         <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
                                         <GridViewColumn Header="Category" Width="120" DisplayMemberBinding="{Binding Category}"/>
                                         <GridViewColumn Header="Provider" Width="80" DisplayMemberBinding="{Binding Provider}"/>
-                                        <GridViewColumn Header="Description" Width="*" DisplayMemberBinding="{Binding Description}"/>
+                                        <GridViewColumn Header="Description" Width="300" DisplayMemberBinding="{Binding Description}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
