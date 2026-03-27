@@ -224,7 +224,8 @@ function Initialize-MainWindow {
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
+                        <Border x:Name="NavBorder"
+                                Background="{TemplateBinding Background}" 
                                 BorderBrush="{StaticResource PrimaryBlue}"
                                 BorderThickness="4,0,0,0"
                                 Opacity="0">
@@ -239,7 +240,7 @@ function Initialize-MainWindow {
                             <Trigger Property="Tag" Value="Selected">
                                 <Setter Property="Background" Value="{StaticResource LightBackground}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter TargetName="Border" Property="Opacity" Value="1"/>
+                                <Setter TargetName="NavBorder" Property="Opacity" Value="1"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

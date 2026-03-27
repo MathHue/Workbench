@@ -238,7 +238,7 @@
     "name": "Explorer Cleanup",
     "description": "Clear Explorer history and recent files",
     "commandType": "powershell",
-    "scriptBlock": "Clear-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU' -Name '*' -ErrorAction SilentlyContinue; Clear-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths' -Name '*' -ErrorAction SilentlyContinue; Write-Output 'Explorer history cleared'",
+    "scriptBlock": "Clear-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU' -Name '*' -ErrorAction SilentlyContinue; Clear-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths' -Name '*' -ErrorAction SilentlyContinue; Write-Output 'Explorer history cleared'",
     "requiresAdmin": false
   },
   {
