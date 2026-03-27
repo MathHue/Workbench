@@ -332,7 +332,7 @@ function Initialize-MainWindow {
         
         <!-- Style for ListViews -->
         <Style x:Key="DarkListViewStyle" TargetType="ListView">
-            <Setter Property="Background" Value="{StaticResource DarkerBackground}"/>
+            <Setter Property="Background" Value="{StaticResource LighterBackground}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
@@ -343,7 +343,7 @@ function Initialize-MainWindow {
             <Setter Property="BorderBrush" Value="{StaticResource LightBackground}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Background" Value="{StaticResource DarkerBackground}"/>
+            <Setter Property="Background" Value="{StaticResource LighterBackground}"/>
         </Style>
     </Window.Resources>
     
