@@ -95,6 +95,23 @@ function Convert-JsonToObjects {
     return $content | ConvertFrom-Json
 }
 
+function Get-KMBrandingValue {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Name,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Fallback
+    )
+
+    $value = $script:Branding.$Name
+    if ([string]::IsNullOrWhiteSpace([string]$value)) {
+        return $Fallback
+    }
+
+    return [string]$value
+}
+
 # Load configuration files - use PSCustomObjects directly (simpler and more reliable)
 $script:Branding = @{}
 $script:Applications = @()
