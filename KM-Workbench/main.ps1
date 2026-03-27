@@ -568,12 +568,12 @@ function Initialize-MainWindow {
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                 <StackPanel x:Name="RepairsContainer">
                                     <!-- Safe Repairs Section -->
-                                    <GroupBox Header="Safe Repairs" Style="{StaticResource DarkGroupBoxStyle}">
+                                    <GroupBox x:Name="SafeRepairsGroup" Header="Safe Repairs" Style="{StaticResource DarkGroupBoxStyle}">
                                         <WrapPanel x:Name="SafeRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
                                     </GroupBox>
                                     
                                     <!-- Advanced Repairs Section -->
-                                    <GroupBox Header="Advanced Repairs (Use with caution)" Style="{StaticResource DarkGroupBoxStyle}">
+                                    <GroupBox x:Name="AdvancedRepairsGroup" Header="Advanced Repairs (Use with caution)" Style="{StaticResource DarkGroupBoxStyle}">
                                         <WrapPanel x:Name="AdvancedRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
                                     </GroupBox>
                                     
@@ -1057,7 +1057,19 @@ function Initialize-ApplicationsTab {
         return
     }
 
-    $categories = @("All Categories") + @($Config | Where-Object { $_.enabled -ne $false } | Select-Object -ExpandProperty category -Unique | Sort-Object)
+    $categories = @(
+        "All Categories"
+        @(
+            $Config |
+                Where-Object {
+                    $_.enabled -ne $false -and
+                    $_.PSObject.Properties.Match("category").Count -gt 0 -and
+                    -not [string]::IsNullOrWhiteSpace([string]$_.category)
+                } |
+                ForEach-Object { [string]$_.category } |
+                Sort-Object -Unique
+        )
+    )
     $categoryFilter.ItemsSource = $categories
     $categoryFilter.SelectedIndex = 0
 
@@ -1217,6 +1229,9 @@ function Initialize-RepairsTab {
     $safePanel = $Window.FindName("SafeRepairsPanel")
     $advancedPanel = $Window.FindName("AdvancedRepairsPanel")
     $dangerousPanel = $Window.FindName("DangerousRepairsPanel")
+    $safeGroup = if ($Window.FindName("SafeRepairsGroup")) { $Window.FindName("SafeRepairsGroup") } else { $safePanel }
+    $advancedGroup = if ($Window.FindName("AdvancedRepairsGroup")) { $Window.FindName("AdvancedRepairsGroup") } else { $advancedPanel }
+    $dangerousGroup = if ($Window.FindName("DangerousRepairsGroup")) { $Window.FindName("DangerousRepairsGroup") } else { $dangerousPanel }
 
     if (-not $safePanel) {
         return
@@ -1254,24 +1269,24 @@ function Initialize-RepairsTab {
     $levelFilter.Add_SelectionChanged({
         switch ([string]$levelFilter.SelectedItem) {
             "Safe Only" {
-                $safePanel.Parent.Visibility = "Visible"
-                $advancedPanel.Parent.Visibility = "Collapsed"
-                $dangerousPanel.Parent.Visibility = "Collapsed"
+                $safeGroup.Visibility = "Visible"
+                $advancedGroup.Visibility = "Collapsed"
+                $dangerousGroup.Visibility = "Collapsed"
             }
             "Include Advanced" {
-                $safePanel.Parent.Visibility = "Visible"
-                $advancedPanel.Parent.Visibility = "Visible"
-                $dangerousPanel.Parent.Visibility = "Collapsed"
+                $safeGroup.Visibility = "Visible"
+                $advancedGroup.Visibility = "Visible"
+                $dangerousGroup.Visibility = "Collapsed"
             }
             "Dangerous Only" {
-                $safePanel.Parent.Visibility = "Collapsed"
-                $advancedPanel.Parent.Visibility = "Collapsed"
-                $dangerousPanel.Parent.Visibility = "Visible"
+                $safeGroup.Visibility = "Collapsed"
+                $advancedGroup.Visibility = "Collapsed"
+                $dangerousGroup.Visibility = "Visible"
             }
             default {
-                $safePanel.Parent.Visibility = "Visible"
-                $advancedPanel.Parent.Visibility = "Visible"
-                $dangerousPanel.Parent.Visibility = "Visible"
+                $safeGroup.Visibility = "Visible"
+                $advancedGroup.Visibility = "Visible"
+                $dangerousGroup.Visibility = "Visible"
             }
         }
     })
