@@ -81,13 +81,15 @@ $script:FileManifest = @{
 
 $script:AppName = "Key Methods Workbench"
 $script:AppVersion = "1.0.0"
-# Use provided working directory or default to temp (PowerShell 5.1 compatible)
+# Use provided working directory or create a unique temp session directory
 if ($WorkingDirectory) {
     $script:TempBaseDir = $WorkingDirectory
-} else {
-    $script:TempBaseDir = "$env:TEMP\KM-Workbench"
 }
-$script:LogFile = "$script:TempBaseDir\bootstrap.log"
+else {
+    $sessionStamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $script:TempBaseDir = Join-Path $env:TEMP "KM-Workbench-$sessionStamp-$PID"
+}
+$script:LogFile = Join-Path $script:TempBaseDir "bootstrap.log"
 
 #endregion
 
