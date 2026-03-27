@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [switch]$AutoClose,
-    [string]$BaseUrl = 'https://raw.githubusercontent.com/MathHue/Workbench/main/KM-Workbench'
+    [string]$BaseUrl = 'https://raw.githubusercontent.com/MathHue/Workbench/main'
 )
 
 function Start-WorkbenchProcess {
