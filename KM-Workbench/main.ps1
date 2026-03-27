@@ -222,6 +222,7 @@ function Initialize-MainWindow {
         <SolidColorBrush x:Key="LightBackground" Color="#FFF5F5F5"/>
         <SolidColorBrush x:Key="LighterBackground" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="DarkBackground" Color="#FFE0E0E0"/>
+        <SolidColorBrush x:Key="DarkerBackground" Color="#FFD0D0D0"/>
         <SolidColorBrush x:Key="BorderColor" Color="#FFCCCCCC"/>
         <SolidColorBrush x:Key="TextPrimary" Color="#FF333333"/>
         <SolidColorBrush x:Key="TextSecondary" Color="#FF666666"/>
