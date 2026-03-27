@@ -55,6 +55,32 @@ $script:LogPath = Join-Path $WorkingDirectory "Logs"
 $script:IsAdmin = $IsAdmin
 $script:HostedBaseUrl = $HostedBaseUrl
 
+# Helper function to convert PSCustomObject to Hashtable (PowerShell 5.1 compatible)
+function Convert-JsonToHashtable {
+    param([Parameter(ValueFromPipeline = $true)]$InputObject)
+    
+    process {
+        if ($null -eq $InputObject) { return $null }
+        if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -isnot [string]) {
+            $collection = @()
+            foreach ($item in $InputObject) {
+                $collection += (Convert-JsonToHashtable $item)
+            }
+            return $collection
+        }
+        elseif ($InputObject -is [PSCustomObject]) {
+            $hash = @{}
+            foreach ($prop in $InputObject.PSObject.Properties) {
+                $hash[$prop.Name] = Convert-JsonToHashtable $prop.Value
+            }
+            return $hash
+        }
+        else {
+            return $InputObject
+        }
+    }
+}
+
 # Load configuration files
 $script:Branding = @{}
 $script:Applications = @()
@@ -65,7 +91,8 @@ $script:Presets = @{}
 try {
     $brandingFile = Join-Path $script:ConfigPath "branding.json"
     if (Test-Path $brandingFile) {
-        $script:Branding = Get-Content $brandingFile -Raw | ConvertFrom-Json -AsHashtable
+        $json = Get-Content $brandingFile -Raw | ConvertFrom-Json
+        $script:Branding = Convert-JsonToHashtable $json
     }
 }
 catch {
@@ -75,7 +102,8 @@ catch {
 try {
     $appsFile = Join-Path $script:ConfigPath "applications.json"
     if (Test-Path $appsFile) {
-        $script:Applications = Get-Content $appsFile -Raw | ConvertFrom-Json -AsHashtable
+        $json = Get-Content $appsFile -Raw | ConvertFrom-Json
+        $script:Applications = Convert-JsonToHashtable $json
     }
 }
 catch {
@@ -85,7 +113,8 @@ catch {
 try {
     $repairsFile = Join-Path $script:ConfigPath "repair-actions.json"
     if (Test-Path $repairsFile) {
-        $script:RepairActions = Get-Content $repairsFile -Raw | ConvertFrom-Json -AsHashtable
+        $json = Get-Content $repairsFile -Raw | ConvertFrom-Json
+        $script:RepairActions = Convert-JsonToHashtable $json
     }
 }
 catch {
@@ -95,7 +124,8 @@ catch {
 try {
     $maintenanceFile = Join-Path $script:ConfigPath "maintenance-actions.json"
     if (Test-Path $maintenanceFile) {
-        $script:MaintenanceActions = Get-Content $maintenanceFile -Raw | ConvertFrom-Json -AsHashtable
+        $json = Get-Content $maintenanceFile -Raw | ConvertFrom-Json
+        $script:MaintenanceActions = Convert-JsonToHashtable $json
     }
 }
 catch {
@@ -105,7 +135,8 @@ catch {
 try {
     $presetsFile = Join-Path $script:ConfigPath "presets.json"
     if (Test-Path $presetsFile) {
-        $script:Presets = Get-Content $presetsFile -Raw | ConvertFrom-Json -AsHashtable
+        $json = Get-Content $presetsFile -Raw | ConvertFrom-Json
+        $script:Presets = Convert-JsonToHashtable $json
     }
 }
 catch {
@@ -128,7 +159,25 @@ foreach ($module in $modules) {
 # WPF UI IMPLEMENTATION
 # ============================================================================
 
-Add-Type -AssemblyName PresentationFramework
+# Check if we are in STA mode (required for WPF)
+if ([System.Threading.Thread]::CurrentThread.GetApartmentState() -ne [System.Threading.ApartmentState]::STA) {
+    Write-Warning "PowerShell is not running in STA mode. WPF requires STA mode."
+    Write-Host "Please run PowerShell with the -STA parameter or use the local launch method." -ForegroundColor Yellow
+    Read-Host "Press Enter to exit"
+    exit 1
+}
+
+try {
+    Add-Type -AssemblyName PresentationFramework
+    Add-Type -AssemblyName PresentationCore
+    Add-Type -AssemblyName WindowsBase
+}
+catch {
+    Write-Error "Failed to load WPF assemblies. Ensure .NET Framework is installed."
+    Write-Error "Details: $_"
+    Read-Host "Press Enter to exit"
+    exit 1
+}
 Add-Type -AssemblyName PresentationCore
 Add-Type -AssemblyName WindowsBase
 Add-Type -AssemblyName System.Windows.Forms

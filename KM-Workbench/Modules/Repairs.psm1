@@ -27,7 +27,7 @@ function Get-KMRepairActions {
     
     try {
         if (Test-Path $configPath) {
-            $actions = Get-Content $configPath -Raw | ConvertFrom-Json -AsHashtable
+            $actions = Get-Content $configPath -Raw | ConvertFrom-Json
         }
         else {
             $actions = Get-KMDefaultRepairActions
@@ -99,7 +99,8 @@ function Invoke-KMRepair {
     try {
         switch ($RepairAction.commandType) {
             "cmd" {
-                $cmdResult = Invoke-KMCommand -Command $RepairAction.command -Arguments $RepairAction.arguments -TimeoutSeconds ($RepairAction.timeoutSeconds ?? 300)
+                $timeout = if ($RepairAction.timeoutSeconds) { $RepairAction.timeoutSeconds } else { 300 }
+                $cmdResult = Invoke-KMCommand -Command $RepairAction.command -Arguments $RepairAction.arguments -TimeoutSeconds $timeout
                 $result.Success = $cmdResult.Success
                 $result.Output = $cmdResult.Output
                 $result.Error = $cmdResult.Error

@@ -48,7 +48,12 @@ param(
 #   - GitHub Raw: https://raw.githubusercontent.com/yourorg/km-workbench/main/
 #   - GitHub Pages: https://yourorg.github.io/km-workbench/
 #   - Custom Domain: https://wb.keymethods.net/
-$script:HostedBaseUrl = $env:KM_WORKBENCH_URL ?? "https://wb.keymethods.net/"
+# Use environment variable if set, otherwise default URL (PowerShell 5.1 compatible)
+if ($env:KM_WORKBENCH_URL) {
+    $script:HostedBaseUrl = $env:KM_WORKBENCH_URL
+} else {
+    $script:HostedBaseUrl = "https://raw.githubusercontent.com/MathHue/Workbench/main/KM-Workbench/"
+}
 
 # Ensure trailing slash
 if (-not $script:HostedBaseUrl.EndsWith('/')) {
@@ -76,7 +81,12 @@ $script:FileManifest = @{
 
 $script:AppName = "Key Methods Workbench"
 $script:AppVersion = "1.0.0"
-$script:TempBaseDir = $WorkingDirectory ?? "$env:TEMP\KM-Workbench"
+# Use provided working directory or default to temp (PowerShell 5.1 compatible)
+if ($WorkingDirectory) {
+    $script:TempBaseDir = $WorkingDirectory
+} else {
+    $script:TempBaseDir = "$env:TEMP\KM-Workbench"
+}
 $script:LogFile = "$script:TempBaseDir\bootstrap.log"
 
 #endregion
@@ -307,6 +317,14 @@ function Import-WorkbenchModules {
     }
 }
 
+function Test-STAThread {
+    <#
+    .SYNOPSIS
+        Checks if running in STA mode (required for WPF GUI).
+    #>
+    return ([System.Threading.Thread]::CurrentThread.GetApartmentState() -eq [System.Threading.ApartmentState]::STA)
+}
+
 function Show-Banner {
     Clear-Host
     Write-Host @"
@@ -380,6 +398,32 @@ function Start-Workbench {
         [switch]$SkipUpdateCheck
     )
     
+    # Check STA mode for WPF GUI
+    if (-not (Test-STAThread)) {
+        Clear-Host
+        Write-Host @"
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                         THREAD MODE WARNING                               ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                                                                           ║
+║  Key Methods Workbench requires STA (Single Threaded Apartment) mode.     ║
+║  You are currently running in MTA mode, which is incompatible with WPF.   ║
+║                                                                           ║
+║  SOLUTIONS:                                                               ║
+║                                                                           ║
+║  1. Download and run locally (RECOMMENDED):                               ║
+║     iwr $script:HostedBaseUrl/bootstrap.ps1 -OutFile .\bootstrap.ps1      ║
+║     powershell -STA -ExecutionPolicy Bypass -File .\bootstrap.ps1         ║
+║                                                                           ║
+║  2. Or launch PowerShell in STA mode first:                               ║
+║     powershell -STA                                                       ║
+║     Then run: irm $script:HostedBaseUrl/bootstrap.ps1 | iex               ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+"@ -ForegroundColor Yellow
+        return
+    }
+    
     # Show banner
     Show-Banner
     
@@ -442,16 +486,20 @@ function Start-Workbench {
     Write-Host "`nStarting Key Methods Workbench..." -ForegroundColor Cyan
     $mainScript = Join-Path $script:TempBaseDir "main.ps1"
     
+    Write-Host "Main script path: $mainScript" -ForegroundColor Gray
+    
     if (Test-Path $mainScript) {
         try {
             # Create argument hashtable for main script
             $mainArgs = @{
                 WorkingDirectory = $script:TempBaseDir
-                IsAdmin = Test-AdminRights
+                IsAdmin = (Test-AdminRights)
                 BootstrapVersion = $script:AppVersion
                 HostedBaseUrl = $script:HostedBaseUrl
                 Mode = $Mode
             }
+            
+            Write-Host "Launching main script with args: $(($mainArgs.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" }) -join ', ')" -ForegroundColor Gray
             
             # Dot-source the main script
             . $mainScript @mainArgs
@@ -459,12 +507,16 @@ function Start-Workbench {
         catch {
             Write-BootstrapLog -Level "Error" -Message "Failed to launch main application: $_"
             Write-Host "`nError details: $_" -ForegroundColor Red
+            Write-Host "Exception type: $($_.Exception.GetType().FullName)" -ForegroundColor Gray
             Write-Host "Stack trace: $($_.ScriptStackTrace)" -ForegroundColor Gray
+            Read-Host "Press Enter to exit"
             exit 1
         }
     }
     else {
         Write-BootstrapLog -Level "Error" -Message "Main application script not found: $mainScript"
+        Write-Host "ERROR: Main script not found at: $mainScript" -ForegroundColor Red
+        Read-Host "Press Enter to exit"
         exit 1
     }
 }
@@ -475,11 +527,21 @@ function Start-Workbench {
 # ENTRY POINT
 # ============================================================================
 
-# If the script was invoked with -? or -Help, show usage
-if ($args -contains '-?' -or $args -contains '-Help' -or $args -contains '--help') {
-    Show-Usage
-    exit 0
-}
+try {
+    # If the script was invoked with -? or -Help, show usage
+    if ($args -contains '-?' -or $args -contains '-Help' -or $args -contains '--help') {
+        Show-Usage
+        exit 0
+    }
 
-# Start the workbench
-Start-Workbench -Admin:$Admin -SkipUpdateCheck:$SkipUpdateCheck
+    # Start the workbench
+    Start-Workbench -Admin:$Admin -SkipUpdateCheck:$SkipUpdateCheck
+}
+catch {
+    Write-Host "`nCRITICAL ERROR: $_" -ForegroundColor Red
+    Write-Host "Exception Type: $($_.Exception.GetType().FullName)" -ForegroundColor Gray
+    Write-Host "Stack Trace: $($_.ScriptStackTrace)" -ForegroundColor Gray
+    Write-Host "`nPlease ensure you are using PowerShell 5.1 or later." -ForegroundColor Yellow
+    Read-Host "`nPress Enter to exit"
+    exit 1
+}

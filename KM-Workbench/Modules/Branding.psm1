@@ -77,9 +77,9 @@ function Import-KMBranding {
     
     try {
         if (Test-Path $Path) {
-            $config = Get-Content -Path $Path -Raw | ConvertFrom-Json -AsHashtable
-            foreach ($key in $config.Keys) {
-                $script:BrandingConfig[$key] = $config[$key]
+            $config = Get-Content -Path $Path -Raw | ConvertFrom-Json
+            foreach ($prop in $config.PSObject.Properties) {
+                $script:BrandingConfig[$prop.Name] = $prop.Value
             }
             Write-KMLog -Message "Branding configuration loaded from: $Path" -Level "Info"
             return $true

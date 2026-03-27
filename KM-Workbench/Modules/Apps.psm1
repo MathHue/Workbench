@@ -30,7 +30,7 @@ function Get-KMApplicationCatalog {
     
     try {
         if (Test-Path $configPath) {
-            $apps = Get-Content $configPath -Raw | ConvertFrom-Json -AsHashtable
+            $apps = Get-Content $configPath -Raw | ConvertFrom-Json
         }
         else {
             # Return default catalog if config not found
@@ -380,7 +380,7 @@ function Get-KMApplicationsFromPreset {
     
     try {
         if (Test-Path $configPath) {
-            $presets = Get-Content $configPath -Raw | ConvertFrom-Json -AsHashtable
+            $presets = Get-Content $configPath -Raw | ConvertFrom-Json
             
             if ($presets.appPresets[$PresetName]) {
                 $appNames = $presets.appPresets[$PresetName].applications

@@ -12,7 +12,7 @@ function Get-KMMaintenanceActions {
     
     try {
         if (Test-Path $configPath) {
-            return Get-Content $configPath -Raw | ConvertFrom-Json -AsHashtable
+            return Get-Content $configPath -Raw | ConvertFrom-Json
         }
         else {
             return Get-KMDefaultMaintenanceActions
