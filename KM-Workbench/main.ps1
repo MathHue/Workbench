@@ -216,14 +216,15 @@ function Initialize-MainWindow {
         Background="#FF1E1E1E">
     
     <Window.Resources>
-        <!-- Colors based on Key Methods branding -->
+        <!-- Colors based on Key Methods branding - LIGHT THEME -->
         <SolidColorBrush x:Key="PrimaryBlue" Color="#0072C6"/>
         <SolidColorBrush x:Key="PrimaryOrange" Color="#F26522"/>
-        <SolidColorBrush x:Key="DarkBackground" Color="#FF1E1E1E"/>
-        <SolidColorBrush x:Key="DarkerBackground" Color="#FF151515"/>
-        <SolidColorBrush x:Key="LightBackground" Color="#FF2D2D2D"/>
-        <SolidColorBrush x:Key="TextPrimary" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="TextSecondary" Color="#FFAAAAAA"/>
+        <SolidColorBrush x:Key="LightBackground" Color="#FFF5F5F5"/>
+        <SolidColorBrush x:Key="LighterBackground" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="DarkBackground" Color="#FFE0E0E0"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#FFCCCCCC"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#FF333333"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#FF666666"/>
         <SolidColorBrush x:Key="SuccessGreen" Color="#FF28A745"/>
         <SolidColorBrush x:Key="WarningYellow" Color="#FFFFC107"/>
         <SolidColorBrush x:Key="DangerRed" Color="#FFDC3545"/>
@@ -249,10 +250,10 @@ function Initialize-MainWindow {
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource LightBackground}"/>
+                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource DarkBackground}"/>
                             </Trigger>
                             <Trigger Property="Tag" Value="Selected">
-                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource LightBackground}"/>
+                                <Setter TargetName="NavBorder" Property="Background" Value="{StaticResource DarkBackground}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter TargetName="NavBorder" Property="Opacity" Value="1"/>
                             </Trigger>
@@ -321,7 +322,7 @@ function Initialize-MainWindow {
         
         <!-- Style for TextBoxes -->
         <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Background" Value="{StaticResource DarkerBackground}"/>
+            <Setter Property="Background" Value="{StaticResource LighterBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
             <Setter Property="BorderBrush" Value="{StaticResource PrimaryBlue}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -332,7 +333,7 @@ function Initialize-MainWindow {
         <!-- Style for ListViews -->
         <Style x:Key="DarkListViewStyle" TargetType="ListView">
             <Setter Property="Background" Value="{StaticResource DarkerBackground}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
         
@@ -346,7 +347,7 @@ function Initialize-MainWindow {
         </Style>
     </Window.Resources>
     
-    <Border Background="{StaticResource DarkBackground}">
+    <Border Background="{StaticResource LightBackground}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -355,7 +356,7 @@ function Initialize-MainWindow {
             </Grid.RowDefinitions>
             
             <!-- Header -->
-            <Border Grid.Row="0" Background="{StaticResource DarkerBackground}" BorderBrush="{StaticResource LightBackground}" BorderThickness="0,0,0,1">
+            <Border Grid.Row="0" Background="{StaticResource LighterBackground}" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,1">
                 <Grid Margin="15,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -387,7 +388,7 @@ function Initialize-MainWindow {
                 </Grid.ColumnDefinitions>
                 
                 <!-- Navigation Sidebar -->
-                <Border Grid.Column="0" Background="{StaticResource DarkerBackground}" BorderBrush="{StaticResource LightBackground}" BorderThickness="0,0,1,0">
+                <Border Grid.Column="0" Background="{StaticResource LighterBackground}" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,1,0">
                     <StackPanel x:Name="NavigationPanel" Margin="0,10">
                         <Button x:Name="NavHome" Content="🏠 Home" Style="{StaticResource NavButtonStyle}" Tag="Selected"/>
                         <Button x:Name="NavApps" Content="📦 Applications" Style="{StaticResource NavButtonStyle}"/>
@@ -400,7 +401,7 @@ function Initialize-MainWindow {
                 </Border>
                 
                 <!-- Content Area -->
-                <Border Grid.Column="1" Background="{StaticResource DarkBackground}">
+                <Border Grid.Column="1" Background="{StaticResource LightBackground}">
                     <Grid x:Name="ContentGrid" Margin="20">
                         
                         <!-- HOME TAB -->
@@ -555,17 +556,17 @@ function Initialize-MainWindow {
                                 <StackPanel x:Name="RepairsContainer">
                                     <!-- Safe Repairs Section -->
                                     <GroupBox Header="Safe Repairs" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="SafeRepairsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
+                                        <WrapPanel x:Name="SafeRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
                                     </GroupBox>
                                     
                                     <!-- Advanced Repairs Section -->
                                     <GroupBox Header="Advanced Repairs (Use with caution)" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="AdvancedRepairsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
+                                        <WrapPanel x:Name="AdvancedRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
                                     </GroupBox>
                                     
                                     <!-- Dangerous Repairs Section -->
                                     <GroupBox Header="⚠️ Dangerous Repairs (Confirmation Required)" Style="{StaticResource DarkGroupBoxStyle}">
-                                        <WrapPanel x:Name="DangerousRepairsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
+                                        <WrapPanel x:Name="DangerousRepairsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
                                     </GroupBox>
                                 </StackPanel>
                             </ScrollViewer>
@@ -643,7 +644,7 @@ function Initialize-MainWindow {
                                     
                                     <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                         <GroupBox Header="Windows Tools" Style="{StaticResource DarkGroupBoxStyle}">
-                                            <WrapPanel x:Name="MaintenanceToolsPanel" Margin="10" Background="{StaticResource DarkerBackground}"/>
+                                            <WrapPanel x:Name="MaintenanceToolsPanel" Margin="10" Background="{StaticResource LighterBackground}"/>
                                         </GroupBox>
                                         
                                         <GroupBox Header="Package Managers" Style="{StaticResource DarkGroupBoxStyle}">
@@ -695,7 +696,7 @@ function Initialize-MainWindow {
                                      FontFamily="Consolas"
                                      FontSize="11"/>
                             
-                            <StatusBar Grid.Row="2" Background="{StaticResource DarkerBackground}" Margin="0,5,0,0">
+                            <StatusBar Grid.Row="2" Background="{StaticResource LighterBackground}" Margin="0,5,0,0">
                                 <TextBlock x:Name="StatusBarText" Text="Ready" Foreground="{StaticResource TextSecondary}" FontSize="11"/>
                             </StatusBar>
                         </Grid>
@@ -721,7 +722,7 @@ function Initialize-MainWindow {
             </Grid>
             
             <!-- Footer -->
-            <Border Grid.Row="2" Background="{StaticResource DarkerBackground}" BorderBrush="{StaticResource LightBackground}" BorderThickness="0,1,0,0">
+            <Border Grid.Row="2" Background="{StaticResource LighterBackground}" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,0,0">
                 <Grid Margin="15,8">
                     <TextBlock Text="Key Methods Internal Utility" Foreground="{StaticResource TextSecondary}" FontSize="10" HorizontalAlignment="Left"/>
                     <TextBlock x:Name="FooterVersion" Text="v1.0.0" Foreground="{StaticResource TextSecondary}" FontSize="10" HorizontalAlignment="Right"/>
@@ -1026,7 +1027,7 @@ function Initialize-RepairsTab {
         $checkbox.Style = $Window.FindResource("DarkCheckBoxStyle")
         $checkbox.Margin = "5"
         $checkbox.Background = [System.Windows.Media.Brushes]::Transparent
-        $checkbox.Foreground = [System.Windows.Media.Brushes]::White
+        $checkbox.Foreground = [System.Windows.Media.Brushes]::Black
         
         switch ($action.dangerLevel) {
             "safe" { [void]$safePanel.Children.Add($checkbox) }
