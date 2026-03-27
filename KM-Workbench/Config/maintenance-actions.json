@@ -1,0 +1,262 @@
+[
+  {
+    "id": "diskcleanup",
+    "name": "Disk Cleanup",
+    "description": "Launch Windows Disk Cleanup utility",
+    "command": "cleanmgr",
+    "arguments": [],
+    "requiresAdmin": false
+  },
+  {
+    "id": "startupapps",
+    "name": "Startup Apps",
+    "description": "Manage startup applications",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start ms-settings:startupapps"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "services",
+    "name": "Services",
+    "description": "Open Services management console",
+    "command": "services.msc",
+    "arguments": [],
+    "requiresAdmin": true
+  },
+  {
+    "id": "devicemanager",
+    "name": "Device Manager",
+    "description": "Open Device Manager",
+    "command": "devmgmt.msc",
+    "arguments": [],
+    "requiresAdmin": true
+  },
+  {
+    "id": "programs",
+    "name": "Programs & Features",
+    "description": "Open Programs and Features control panel",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start appwiz.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "windowsupdate",
+    "name": "Windows Update",
+    "description": "Open Windows Update settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start ms-settings:windowsupdate"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "eventviewer",
+    "name": "Event Viewer",
+    "description": "Open Event Viewer",
+    "command": "eventvwr.msc",
+    "arguments": [],
+    "requiresAdmin": true
+  },
+  {
+    "id": "taskscheduler",
+    "name": "Task Scheduler",
+    "description": "Open Task Scheduler",
+    "command": "taskschd.msc",
+    "arguments": [],
+    "requiresAdmin": true
+  },
+  {
+    "id": "taskmanager",
+    "name": "Task Manager",
+    "description": "Open Task Manager",
+    "command": "taskmgr",
+    "arguments": [],
+    "requiresAdmin": false
+  },
+  {
+    "id": "systeminfo",
+    "name": "System Information",
+    "description": "Open System Information utility",
+    "command": "msinfo32",
+    "arguments": [],
+    "requiresAdmin": false
+  },
+  {
+    "id": "perfmon",
+    "name": "Performance Monitor",
+    "description": "Open Performance Monitor",
+    "command": "perfmon",
+    "arguments": [],
+    "requiresAdmin": true
+  },
+  {
+    "id": "resmon",
+    "name": "Resource Monitor",
+    "description": "Open Resource Monitor",
+    "command": "resmon",
+    "arguments": [],
+    "requiresAdmin": true
+  },
+  {
+    "id": "control",
+    "name": "Control Panel",
+    "description": "Open Control Panel",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start control"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "network",
+    "name": "Network Connections",
+    "description": "Open Network Connections",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start ncpa.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "firewall",
+    "name": "Windows Firewall",
+    "description": "Open Windows Firewall settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start firewall.cpl"],
+    "requiresAdmin": true
+  },
+  {
+    "id": "power",
+    "name": "Power Options",
+    "description": "Open Power Options control panel",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start powercfg.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "systemproperties",
+    "name": "System Properties",
+    "description": "Open System Properties",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start sysdm.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "dateandtime",
+    "name": "Date and Time",
+    "description": "Open Date and Time settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start timedate.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "region",
+    "name": "Region Settings",
+    "description": "Open Region settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start intl.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "keyboard",
+    "name": "Keyboard Properties",
+    "description": "Open Keyboard settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start main.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "mouse",
+    "name": "Mouse Properties",
+    "description": "Open Mouse settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start main.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "sounds",
+    "name": "Sound Settings",
+    "description": "Open Sound control panel",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start mmsys.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "display",
+    "name": "Display Settings",
+    "description": "Open Display settings",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start desk.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "inetcpl",
+    "name": "Internet Properties",
+    "description": "Open Internet Properties",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start inetcpl.cpl"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "credentialmanager",
+    "name": "Credential Manager",
+    "description": "Open Credential Manager",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start control /name Microsoft.CredentialManager"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "defender",
+    "name": "Windows Security",
+    "description": "Open Windows Security center",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start windowsdefender:"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "settings",
+    "name": "Settings App",
+    "description": "Open Windows Settings app",
+    "commandType": "shell",
+    "shellCommand": "powershell",
+    "arguments": ["-Command", "start ms-settings:"],
+    "requiresAdmin": false
+  },
+  {
+    "id": "explorercleanup",
+    "name": "Explorer Cleanup",
+    "description": "Clear Explorer history and recent files",
+    "commandType": "powershell",
+    "scriptBlock": "Clear-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU' -Name '*' -ErrorAction SilentlyContinue; Clear-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths' -Name '*' -ErrorAction SilentlyContinue; Write-Output 'Explorer history cleared'",
+    "requiresAdmin": false
+  },
+  {
+    "id": "restartcomputer",
+    "name": "Restart Computer",
+    "description": "Restart the computer",
+    "commandType": "shell",
+    "shellCommand": "shutdown",
+    "arguments": ["/r", "/t", "60", "/c", "Restart initiated by Key Methods Workbench"],
+    "requiresAdmin": true
+  },
+  {
+    "id": "shutdowncomputer",
+    "name": "Shut Down Computer",
+    "description": "Shut down the computer",
+    "commandType": "shell",
+    "shellCommand": "shutdown",
+    "arguments": ["/s", "/t", "60", "/c", "Shutdown initiated by Key Methods Workbench"],
+    "requiresAdmin": true
+  }
+]

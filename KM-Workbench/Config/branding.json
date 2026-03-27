@@ -1,0 +1,21 @@
+{
+  "appTitle": "Key Methods Workbench",
+  "shortName": "KM Workbench",
+  "companyName": "Key Methods",
+  "footerText": "Key Methods Internal Utility",
+  "tagline": "Install. Repair. Maintain.",
+  "aboutText": "Key Methods Workbench is an internal technician utility for workstation setup, application deployment, Windows remediation, and maintenance workflows.",
+  "primaryColor": "#0072C6",
+  "secondaryColor": "#F26522",
+  "warningColor": "#FFC107",
+  "successColor": "#28A745",
+  "errorColor": "#DC3545",
+  "backgroundColor": "#1E1E1E",
+  "textColor": "#FFFFFF",
+  "logoPath": "Assets/keymethods-logo.png",
+  "bootstrapUrl": "https://wb.keymethods.net/bootstrap.ps1",
+  "websiteUrl": "https://wb.keymethods.net/",
+  "supportEmail": "support@keymethods.net",
+  "version": "1.0.0",
+  "copyright": "© 2026 Key Methods. All rights reserved."
+}

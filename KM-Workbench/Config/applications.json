@@ -1,0 +1,302 @@
+[
+  {
+    "name": "Google Chrome",
+    "category": "Browsers",
+    "provider": "Winget",
+    "packageId": "Google.Chrome",
+    "description": "Fast, secure web browser by Google",
+    "tags": ["browser", "google", "web"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Mozilla Firefox",
+    "category": "Browsers",
+    "provider": "Winget",
+    "packageId": "Mozilla.Firefox",
+    "description": "Privacy-focused web browser",
+    "tags": ["browser", "mozilla", "privacy"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Microsoft Edge",
+    "category": "Browsers",
+    "provider": "Winget",
+    "packageId": "Microsoft.Edge",
+    "description": "Microsoft's modern web browser",
+    "tags": ["browser", "microsoft", "chromium"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "7-Zip",
+    "category": "Utilities",
+    "provider": "Winget",
+    "packageId": "7zip.7zip",
+    "description": "File archiver with high compression ratio",
+    "tags": ["archive", "zip", "compression"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Adobe Acrobat Reader",
+    "category": "Productivity",
+    "provider": "Winget",
+    "packageId": "Adobe.Acrobat.Reader.64-bit",
+    "description": "Standard PDF viewer and reader",
+    "tags": ["pdf", "reader", "adobe"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "VLC Media Player",
+    "category": "Media",
+    "provider": "Winget",
+    "packageId": "VideoLAN.VLC",
+    "description": "Versatile media player for all formats",
+    "tags": ["media", "video", "audio"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Notepad++",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "Notepad++.Notepad++",
+    "description": "Advanced text and source code editor",
+    "tags": ["text", "editor", "code"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Microsoft Teams",
+    "category": "Communication",
+    "provider": "Winget",
+    "packageId": "Microsoft.Teams",
+    "description": "Microsoft collaboration and video conferencing",
+    "tags": ["chat", "video", "microsoft"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Zoom",
+    "category": "Communication",
+    "provider": "Winget",
+    "packageId": "Zoom.Zoom",
+    "description": "Video conferencing and online meetings",
+    "tags": ["video", "meeting", "conference"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "TeamViewer",
+    "category": "Remote Support",
+    "provider": "Winget",
+    "packageId": "TeamViewer.TeamViewer",
+    "description": "Remote access and support software",
+    "tags": ["remote", "support", "access"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": "AnyDesk",
+    "category": "Remote Support",
+    "provider": "Winget",
+    "packageId": "AnyDeskSoftwareGmbH.AnyDesk",
+    "description": "Fast remote desktop software",
+    "tags": ["remote", "desktop", "access"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": "PowerToys",
+    "category": "Utilities",
+    "provider": "Winget",
+    "packageId": "Microsoft.PowerToys",
+    "description": "Windows productivity utilities",
+    "tags": ["productivity", "utilities", "microsoft"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": "Everything",
+    "category": "Utilities",
+    "provider": "Winget",
+    "packageId": "voidtools.Everything",
+    "description": "Instant file search for Windows",
+    "tags": ["search", "files", "utility"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "FileZilla",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "TimKosse.FileZilla.Client",
+    "description": "FTP, FTPS and SFTP client",
+    "tags": ["ftp", "sftp", "transfer"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "WinSCP",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "WinSCP.WinSCP",
+    "description": "SFTP, FTP, WebDAV and SCP client",
+    "tags": ["ftp", "sftp", "scp"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "PuTTY",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "PuTTY.PuTTY",
+    "description": "SSH and telnet client",
+    "tags": ["ssh", "telnet", "terminal"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Visual Studio Code",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "Microsoft.VisualStudioCode",
+    "description": "Lightweight code editor with extensions",
+    "tags": ["code", "editor", "development"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Git",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "Git.Git",
+    "description": "Distributed version control system",
+    "tags": ["git", "version-control", "development"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Malwarebytes",
+    "category": "Security",
+    "provider": "Winget",
+    "packageId": "Malwarebytes.Malwarebytes",
+    "description": "Anti-malware and security scanner",
+    "tags": ["security", "antimalware", "protection"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": "1Password",
+    "category": "Security",
+    "provider": "Winget",
+    "packageId": "AgileBits.1Password",
+    "description": "Password manager and secure vault",
+    "tags": ["password", "security", "vault"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Java Runtime",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "Oracle.JavaRuntimeEnvironment",
+    "description": "Java Runtime Environment",
+    "tags": ["java", "runtime", "jre"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": ".NET Desktop Runtime",
+    "category": "Developer Tools",
+    "provider": "Winget",
+    "packageId": "Microsoft.DotNet.DesktopRuntime.8",
+    "description": "Microsoft .NET Desktop Runtime",
+    "tags": ["dotnet", "runtime", "microsoft"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": "Slack",
+    "category": "Communication",
+    "provider": "Winget",
+    "packageId": "SlackTechnologies.Slack",
+    "description": "Team communication and collaboration",
+    "tags": ["chat", "team", "communication"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Discord",
+    "category": "Communication",
+    "provider": "Winget",
+    "packageId": "Discord.Discord",
+    "description": "Voice, video and text communication",
+    "tags": ["chat", "voice", "gaming"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Spotify",
+    "category": "Media",
+    "provider": "Winget",
+    "packageId": "Spotify.Spotify",
+    "description": "Music streaming service",
+    "tags": ["music", "streaming", "audio"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "LibreOffice",
+    "category": "Productivity",
+    "provider": "Winget",
+    "packageId": "TheDocumentFoundation.LibreOffice",
+    "description": "Free office suite",
+    "tags": ["office", "productivity", "documents"],
+    "enabled": true,
+    "requiresAdmin": true
+  },
+  {
+    "name": "KeePass",
+    "category": "Security",
+    "provider": "Winget",
+    "packageId": "DominikReichl.KeePass",
+    "description": "Free password manager",
+    "tags": ["password", "security", "free"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "Greenshot",
+    "category": "Utilities",
+    "provider": "Winget",
+    "packageId": "Greenshot.Greenshot",
+    "description": "Screenshot tool with annotation",
+    "tags": ["screenshot", "capture", "utility"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "ShareX",
+    "category": "Utilities",
+    "provider": "Winget",
+    "packageId": "ShareX.ShareX",
+    "description": "Screen capture and file sharing",
+    "tags": ["screenshot", "share", "capture"],
+    "enabled": true,
+    "requiresAdmin": false
+  },
+  {
+    "name": "VeraCrypt",
+    "category": "Security",
+    "provider": "Winget",
+    "packageId": "IDRIX.VeraCrypt",
+    "description": "Disk encryption software",
+    "tags": ["encryption", "security", "privacy"],
+    "enabled": true,
+    "requiresAdmin": true
+  }
+]

@@ -1,0 +1,193 @@
+{
+  "appPresets": {
+    "NewWorkstation": {
+      "name": "New Workstation",
+      "description": "Standard applications for a new workstation setup",
+      "applications": [
+        "Google Chrome",
+        "7-Zip",
+        "Adobe Acrobat Reader",
+        "VLC Media Player",
+        "Notepad++",
+        "Microsoft Teams"
+      ]
+    },
+    "BasicUserPC": {
+      "name": "Basic User PC",
+      "description": "Essential applications for standard office users",
+      "applications": [
+        "Google Chrome",
+        "Microsoft Edge",
+        "7-Zip",
+        "Adobe Acrobat Reader",
+        "VLC Media Player",
+        "Microsoft Teams",
+        "Zoom"
+      ]
+    },
+    "RemoteSupport": {
+      "name": "Remote Support Setup",
+      "description": "Tools for remote support technicians",
+      "applications": [
+        "TeamViewer",
+        "AnyDesk",
+        "Google Chrome",
+        "Zoom",
+        "Microsoft Teams"
+      ]
+    },
+    "TechBench": {
+      "name": "Technician Bench Build",
+      "description": "Complete toolset for bench technicians",
+      "applications": [
+        "Google Chrome",
+        "Mozilla Firefox",
+        "7-Zip",
+        "VLC Media Player",
+        "Notepad++",
+        "Visual Studio Code",
+        "Git",
+        "PowerToys",
+        "Everything",
+        "ShareX",
+        "PuTTY",
+        "WinSCP",
+        "FileZilla"
+      ]
+    },
+    "SecurityEssentials": {
+      "name": "Security Essentials",
+      "description": "Security-focused application package",
+      "applications": [
+        "Google Chrome",
+        "Malwarebytes",
+        "1Password",
+        "KeePass",
+        "VeraCrypt"
+      ]
+    },
+    "DeveloperBasic": {
+      "name": "Developer Basic",
+      "description": "Essential tools for developers",
+      "applications": [
+        "Visual Studio Code",
+        "Git",
+        "Notepad++",
+        "7-Zip",
+        "Google Chrome",
+        "PuTTY",
+        "WinSCP"
+      ]
+    },
+    "DeveloperFull": {
+      "name": "Developer Full Stack",
+      "description": "Complete developer environment",
+      "applications": [
+        "Visual Studio Code",
+        "Git",
+        "Notepad++",
+        "7-Zip",
+        "Google Chrome",
+        "Mozilla Firefox",
+        "PuTTY",
+        "WinSCP",
+        "FileZilla",
+        "PowerToys",
+        "ShareX",
+        "Java Runtime",
+        ".NET Desktop Runtime"
+      ]
+    },
+    "MediaProduction": {
+      "name": "Media Production",
+      "description": "Media and content creation tools",
+      "applications": [
+        "VLC Media Player",
+        "Spotify",
+        "Greenshot",
+        "ShareX",
+        "7-Zip",
+        "Google Chrome"
+      ]
+    },
+    "CommunicationSuite": {
+      "name": "Communication Suite",
+      "description": "Communication and collaboration tools",
+      "applications": [
+        "Microsoft Teams",
+        "Zoom",
+        "Slack",
+        "Discord",
+        "Google Chrome"
+      ]
+    },
+    "KeyMethodsStandard": {
+      "name": "Key Methods Standard Build",
+      "description": "Key Methods standard deployment configuration",
+      "applications": [
+        "Google Chrome",
+        "7-Zip",
+        "Adobe Acrobat Reader",
+        "VLC Media Player",
+        "Microsoft Teams",
+        "Zoom",
+        "PowerToys",
+        "Everything",
+        "ShareX"
+      ]
+    }
+  },
+  "repairPresets": {
+    "QuickNetworkFix": {
+      "name": "Quick Network Fix",
+      "description": "Fast network connectivity repair",
+      "actions": [
+        "Flush DNS Cache",
+        "Reset Proxy Settings",
+        "Release IP",
+        "Renew IP"
+      ]
+    },
+    "SystemHealthCheck": {
+      "name": "System Health Check",
+      "description": "Complete system file and image health check",
+      "actions": [
+        "DISM CheckHealth",
+        "DISM ScanHealth",
+        "SFC /Scannow"
+      ]
+    },
+    "FullRepair": {
+      "name": "Full System Repair",
+      "description": "Comprehensive system repair sequence",
+      "actions": [
+        "Flush DNS Cache",
+        "Reset Winsock",
+        "Reset IP Stack",
+        "DISM CheckHealth",
+        "DISM ScanHealth",
+        "DISM RestoreHealth",
+        "SFC /Scannow",
+        "Clear Temp Files",
+        "Restart Windows Update"
+      ]
+    },
+    "PrintFix": {
+      "name": "Printer Troubleshooting",
+      "description": "Fix common printing issues",
+      "actions": [
+        "Restart Print Spooler",
+        "Clear Temp Files"
+      ]
+    },
+    "UpdateRepair": {
+      "name": "Windows Update Repair",
+      "description": "Fix Windows Update issues",
+      "actions": [
+        "Restart Windows Update",
+        "Restart BITS",
+        "Clear SoftwareDistribution"
+      ]
+    }
+  }
+}
