@@ -1,0 +1,59 @@
+[
+  {
+    "id": "show-file-extensions",
+    "name": "Show File Extensions",
+    "risk": "Safe",
+    "description": "Show known file extensions in File Explorer.",
+    "command": "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced' -Name HideFileExt -Type DWord -Value 0",
+    "shell": "PowerShell",
+    "recommended": true
+  },
+  {
+    "id": "show-hidden-files",
+    "name": "Show Hidden Files",
+    "risk": "Safe",
+    "description": "Show hidden files and folders in File Explorer.",
+    "command": "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced' -Name Hidden -Type DWord -Value 1; Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced' -Name ShowSuperHidden -Type DWord -Value 1",
+    "shell": "PowerShell",
+    "recommended": true
+  },
+  {
+    "id": "common-explorer-settings",
+    "name": "Apply Common Explorer Settings",
+    "risk": "Safe",
+    "description": "Apply a technician-friendly Explorer layout.",
+    "command": "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced' -Name SeparateProcess -Type DWord -Value 1; Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced' -Name LaunchTo -Type DWord -Value 1; Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced' -Name AutoCheckSelect -Type DWord -Value 1",
+    "shell": "PowerShell",
+    "recommended": true
+  },
+  {
+    "id": "disable-fast-startup",
+    "name": "Disable Fast Startup",
+    "risk": "Elevated",
+    "description": "Disable Fast Startup to reduce shutdown/startup state issues.",
+    "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power' -Name HiberbootEnabled -Type DWord -Value 0",
+    "shell": "PowerShell",
+    "recommended": false,
+    "warning": "Requires administrative rights."
+  },
+  {
+    "id": "enable-rdp",
+    "name": "Enable RDP",
+    "risk": "Elevated",
+    "description": "Enable Remote Desktop and allow firewall rules.",
+    "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server' -Name fDenyTSConnections -Type DWord -Value 0; Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'",
+    "shell": "PowerShell",
+    "recommended": false,
+    "warning": "Confirm remote access is appropriate before enabling."
+  },
+  {
+    "id": "enable-remote-assistance",
+    "name": "Remote Assistance Helper",
+    "risk": "Elevated",
+    "description": "Enable Windows Remote Assistance support.",
+    "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Remote Assistance' -Name fAllowToGetHelp -Type DWord -Value 1",
+    "shell": "PowerShell",
+    "recommended": false,
+    "warning": "This changes remote assistance behavior and requires admin rights."
+  }
+]

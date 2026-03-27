@@ -1,0 +1,44 @@
+[
+  {
+    "name": "New Workstation",
+    "description": "Balanced setup for a newly imaged workstation.",
+    "apps": [
+      "google-chrome",
+      "7zip",
+      "adobe-reader",
+      "notepad-plus-plus"
+    ]
+  },
+  {
+    "name": "Basic User PC",
+    "description": "Common everyday productivity apps.",
+    "apps": [
+      "google-chrome",
+      "adobe-reader",
+      "vlc"
+    ]
+  },
+  {
+    "name": "Technician Bench Build",
+    "description": "Technician-focused tools for a workbench image.",
+    "apps": [
+      "google-chrome",
+      "7zip",
+      "notepad-plus-plus",
+      "vscode",
+      "sysinternals",
+      "openssh-client"
+    ]
+  },
+  {
+    "name": "Key Methods Standard Build",
+    "description": "Default internal standard build.",
+    "apps": [
+      "google-chrome",
+      "7zip",
+      "notepad-plus-plus",
+      "adobe-reader",
+      "sysinternals"
+    ]
+  }
+]

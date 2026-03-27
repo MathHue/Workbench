@@ -1,0 +1,5 @@
+timestamp=2026-03-27 16:15:04 | level=INFO | action=InitializeLog | message=Session log initialized. | command= | success= | output= | error=
+timestamp=2026-03-27 16:15:04 | level=INFO | action=General | message=Starting Key Methods Workbench. | command= | success= | output= | error=
+timestamp=2026-03-27 16:15:06 | level=INFO | action=ShowShell | message=Displaying Key Methods Workbench shell. | command= | success= | output= | error=
+timestamp=2026-03-27 16:15:51 | level=ERROR | action=Restart Print Spooler | message=Restart Print Spooler failed with exit code 1. | command=Restart-Service -Name Spooler -Force | success=False | output=No output. | error=Restart-Service : Service 'Print Spooler (Spooler)' cannot be stopped due to the following error: Cannot open Spooler  service on computer '.'. At line:1 char:1 + Restart-Service -Name Spooler -Force + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     + CategoryInfo          : CloseError: (System.Servic
+timestamp=2026-03-27 16:15:57 | level=INFO | action=General | message=Workbench exited normally. | command= | success= | output= | error=

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "disk-cleanup",
+    "name": "Disk Cleanup",
+    "description": "Launch Disk Cleanup.",
+    "shell": "ShellExecute",
+    "command": "cleanmgr.exe"
+  },
+  {
+    "id": "startup-apps",
+    "name": "Startup Apps",
+    "description": "Open Startup Apps settings.",
+    "shell": "ShellExecute",
+    "command": "ms-settings:startupapps"
+  },
+  {
+    "id": "services",
+    "name": "Services",
+    "description": "Open Services management console.",
+    "shell": "ShellExecute",
+    "command": "services.msc"
+  },
+  {
+    "id": "device-manager",
+    "name": "Device Manager",
+    "description": "Open Device Manager.",
+    "shell": "ShellExecute",
+    "command": "devmgmt.msc"
+  },
+  {
+    "id": "programs-features",
+    "name": "Programs and Features",
+    "description": "Open installed programs control panel.",
+    "shell": "ShellExecute",
+    "command": "appwiz.cpl"
+  },
+  {
+    "id": "windows-update",
+    "name": "Windows Update",
+    "description": "Open Windows Update settings.",
+    "shell": "ShellExecute",
+    "command": "ms-settings:windowsupdate"
+  },
+  {
+    "id": "event-viewer",
+    "name": "Event Viewer",
+    "description": "Open Event Viewer.",
+    "shell": "ShellExecute",
+    "command": "eventvwr.msc"
+  },
+  {
+    "id": "task-scheduler",
+    "name": "Task Scheduler",
+    "description": "Open Task Scheduler.",
+    "shell": "ShellExecute",
+    "command": "taskschd.msc"
+  },
+  {
+    "id": "task-manager",
+    "name": "Task Manager",
+    "description": "Open Task Manager.",
+    "shell": "ShellExecute",
+    "command": "taskmgr.exe"
+  },
+  {
+    "id": "system-information",
+    "name": "System Information",
+    "description": "Open System Information.",
+    "shell": "ShellExecute",
+    "command": "msinfo32.exe"
+  }
+]

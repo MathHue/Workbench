@@ -1,0 +1,94 @@
+[
+  {
+    "id": "google-chrome",
+    "name": "Google Chrome",
+    "category": "Browsers",
+    "provider": "Winget",
+    "packageId": "Google.Chrome",
+    "description": "Google Chrome web browser.",
+    "recommended": true
+  },
+  {
+    "id": "mozilla-firefox",
+    "name": "Mozilla Firefox",
+    "category": "Browsers",
+    "provider": "Winget",
+    "packageId": "Mozilla.Firefox",
+    "description": "Firefox web browser.",
+    "recommended": false
+  },
+  {
+    "id": "7zip",
+    "name": "7-Zip",
+    "category": "Utilities",
+    "provider": "Winget",
+    "packageId": "7zip.7zip",
+    "description": "Compression and archive utility.",
+    "recommended": true
+  },
+  {
+    "id": "notepad-plus-plus",
+    "name": "Notepad++",
+    "category": "Technician",
+    "provider": "Winget",
+    "packageId": "Notepad++.Notepad++",
+    "description": "Lightweight text editor for scripts and logs.",
+    "recommended": true
+  },
+  {
+    "id": "vscode",
+    "name": "Visual Studio Code",
+    "category": "Technician",
+    "provider": "Winget",
+    "packageId": "Microsoft.VisualStudioCode",
+    "description": "Code editor for advanced troubleshooting and development.",
+    "recommended": true
+  },
+  {
+    "id": "adobe-reader",
+    "name": "Adobe Acrobat Reader",
+    "category": "Productivity",
+    "provider": "Winget",
+    "packageId": "Adobe.Acrobat.Reader.64-bit",
+    "description": "PDF viewer.",
+    "recommended": false
+  },
+  {
+    "id": "greenshot",
+    "name": "Greenshot",
+    "category": "Utilities",
+    "provider": "Chocolatey",
+    "packageId": "greenshot",
+    "description": "Screenshot and annotation tool.",
+    "recommended": false
+  },
+  {
+    "id": "sysinternals",
+    "name": "Sysinternals Suite",
+    "category": "Technician",
+    "provider": "Chocolatey",
+    "packageId": "sysinternals",
+    "description": "Microsoft Sysinternals troubleshooting utilities.",
+    "recommended": true
+  },
+  {
+    "id": "vlc",
+    "name": "VLC Media Player",
+    "category": "Media",
+    "provider": "Winget",
+    "packageId": "VideoLAN.VLC",
+    "description": "Media playback utility.",
+    "recommended": false
+  },
+  {
+    "id": "openssh-client",
+    "name": "OpenSSH Client",
+    "category": "Windows Feature",
+    "provider": "Custom command",
+    "installCommand": "Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0",
+    "uninstallCommand": "Remove-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0",
+    "shell": "PowerShell",
+    "description": "Windows optional feature for SSH command-line access.",
+    "recommended": false
+  }
+]

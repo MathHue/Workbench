@@ -1,0 +1,214 @@
+[
+  {
+    "id": "flushdns",
+    "name": "Flush DNS Cache",
+    "group": "Safe",
+    "description": "Clears the local DNS resolver cache.",
+    "command": "ipconfig /flushdns",
+    "shell": "Cmd",
+    "recommended": true,
+    "reboot": "No"
+  },
+  {
+    "id": "registerdns",
+    "name": "Register DNS",
+    "group": "Safe",
+    "description": "Refreshes dynamic DNS registration.",
+    "command": "ipconfig /registerdns",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "release-ip",
+    "name": "Release IP Address",
+    "group": "Advanced",
+    "description": "Releases the current DHCP lease.",
+    "command": "ipconfig /release",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "renew-ip",
+    "name": "Renew IP Address",
+    "group": "Advanced",
+    "description": "Requests a fresh DHCP lease.",
+    "command": "ipconfig /renew",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "winsock-reset",
+    "name": "Winsock Reset",
+    "group": "Advanced",
+    "description": "Resets the Winsock catalog.",
+    "command": "netsh winsock reset",
+    "shell": "Cmd",
+    "recommended": true,
+    "reboot": "Recommended"
+  },
+  {
+    "id": "tcpip-reset",
+    "name": "TCP/IP Stack Reset",
+    "group": "Advanced",
+    "description": "Resets IPv4 and IPv6 TCP/IP settings.",
+    "command": "netsh int ip reset",
+    "shell": "Cmd",
+    "recommended": true,
+    "reboot": "Recommended"
+  },
+  {
+    "id": "sfc",
+    "name": "System File Checker",
+    "group": "Safe",
+    "description": "Scans and repairs protected Windows system files.",
+    "command": "sfc /scannow",
+    "shell": "Cmd",
+    "recommended": true,
+    "reboot": "Possible"
+  },
+  {
+    "id": "dism-checkhealth",
+    "name": "DISM CheckHealth",
+    "group": "Safe",
+    "description": "Checks for image corruption flags.",
+    "command": "DISM /Online /Cleanup-Image /CheckHealth",
+    "shell": "Cmd",
+    "recommended": true,
+    "reboot": "No"
+  },
+  {
+    "id": "dism-scanhealth",
+    "name": "DISM ScanHealth",
+    "group": "Advanced",
+    "description": "Performs a deeper scan for image corruption.",
+    "command": "DISM /Online /Cleanup-Image /ScanHealth",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "dism-restorehealth",
+    "name": "DISM RestoreHealth",
+    "group": "Advanced",
+    "description": "Attempts to repair Windows component store corruption.",
+    "command": "DISM /Online /Cleanup-Image /RestoreHealth",
+    "shell": "Cmd",
+    "recommended": true,
+    "reboot": "Possible"
+  },
+  {
+    "id": "gpupdate",
+    "name": "Force Group Policy Update",
+    "group": "Safe",
+    "description": "Refreshes local and domain Group Policy.",
+    "command": "gpupdate /force",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "Possible"
+  },
+  {
+    "id": "wsreset",
+    "name": "Reset Microsoft Store Cache",
+    "group": "Safe",
+    "description": "Clears the Store cache.",
+    "command": "wsreset.exe",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "restart-explorer",
+    "name": "Restart Explorer",
+    "group": "Advanced",
+    "description": "Restarts the Explorer shell process.",
+    "command": "Get-Process explorer -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Process explorer.exe",
+    "shell": "PowerShell",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "clear-temp",
+    "name": "Clear Temp Files",
+    "group": "Advanced",
+    "description": "Clears common user and Windows temporary folders.",
+    "command": "$paths = @($env:TEMP, 'C:\\Windows\\Temp'); foreach ($path in $paths) { if (Test-Path $path) { Get-ChildItem -Path $path -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue } }",
+    "shell": "PowerShell",
+    "recommended": true,
+    "reboot": "No"
+  },
+  {
+    "id": "restart-spooler",
+    "name": "Restart Print Spooler",
+    "group": "Safe",
+    "description": "Restarts the Print Spooler service.",
+    "command": "Restart-Service -Name Spooler -Force",
+    "shell": "PowerShell",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "restart-bits",
+    "name": "Restart BITS",
+    "group": "Safe",
+    "description": "Restarts the Background Intelligent Transfer Service.",
+    "command": "Restart-Service -Name BITS -Force",
+    "shell": "PowerShell",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "resync-time",
+    "name": "Resync System Time",
+    "group": "Safe",
+    "description": "Resynchronizes the Windows time service.",
+    "command": "w32tm /resync",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "windows-update-reset",
+    "name": "Windows Update Reset Helper",
+    "group": "Advanced",
+    "description": "Stops update services and refreshes SoftwareDistribution and Catroot2.",
+    "command": "$stamp = Get-Date -Format 'yyyyMMddHHmmss'; Stop-Service wuauserv,bits,cryptsvc -Force -ErrorAction SilentlyContinue; Rename-Item 'C:\\Windows\\SoftwareDistribution' ('SoftwareDistribution.bak.' + $stamp) -ErrorAction SilentlyContinue; Rename-Item 'C:\\Windows\\System32\\catroot2' ('catroot2.bak.' + $stamp) -ErrorAction SilentlyContinue; Start-Service cryptsvc,bits,wuauserv -ErrorAction SilentlyContinue",
+    "shell": "PowerShell",
+    "recommended": false,
+    "reboot": "Recommended"
+  },
+  {
+    "id": "chkdsk-scan",
+    "name": "CHKDSK Scan",
+    "group": "Safe",
+    "description": "Performs an online disk scan.",
+    "command": "chkdsk C: /scan",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "No"
+  },
+  {
+    "id": "chkdsk-f",
+    "name": "CHKDSK Fix",
+    "group": "Dangerous",
+    "description": "Schedules a disk fix and may require a reboot.",
+    "command": "chkdsk C: /f",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "Required",
+    "confirmationText": "CHKDSK /f can schedule file system repairs and may require a reboot. Continue?"
+  },
+  {
+    "id": "chkdsk-r",
+    "name": "CHKDSK Surface Scan",
+    "group": "Dangerous",
+    "description": "Schedules a sector scan and recovery pass. This can take a long time.",
+    "command": "chkdsk C: /r",
+    "shell": "Cmd",
+    "recommended": false,
+    "reboot": "Required",
+    "confirmationText": "CHKDSK /r can take a long time and may impact the disk heavily while scanning. Continue only if you understand the risk."
+  }
+]
